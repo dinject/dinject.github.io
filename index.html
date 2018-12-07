@@ -51,7 +51,7 @@
       <div class="jumbotron">
         <div class="container">
           <h1>DInject dependency injection</h1>
-          <h3>Current version - <span class="dinject-version">0.8</span></h3>
+          <h3>Current version - <span class="dinject-version">1.1</span></h3>
           <h2 style="margin-left: 30px;">Dagger2 style DI for server side JVM developers</h2>
           <h2 style="margin-left: 30px;">No reflection, no classpath scanning, no dynamic proxies</h2>
           <h2 style="margin-left: 30px;">APT based - generates source code for DI</h2>
@@ -200,6 +200,38 @@
       </div>
     </div>
 
+
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+
+    <div class="row">
+      <div class="col-md-4 feature">
+        <h3>@Primary and @Secondary</h3>
+        <p>
+          When we have multiple dependencies we can use <code>@Named</code> to specify a specific dependency to use.
+          Alternatively we can use <code>@Primary</code> to make a dependency the preferred dependency and
+          <code>@Secondary</code> to make a dependency the least preferred dependency.
+        </p>
+        <p>
+          Generally we use <code>@Primary</code> and <code>@Secondary</code> most often when we are have dependencies in
+          multiple modules/jars.
+        </p>
+        <p>
+          <code>@Primary</code> matches Spring DI's <code>@Primary</code>.
+        </p>
+      </div>
+      <div class="col-md-6 feature mtl">
+        <div class="syntax java"><div class="highlight"><pre><span></span><span class="nd">@Primary</span>
+<span class="nd">@Singleton</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">BestEmailSender</span> <span class="kd">implements</span> <span class="n">EmailSender</span> <span class="o">{</span>
+
+  <span class="o">...</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+      </div>
+    </div>
+
     <p>&nbsp;</p>
     <p>&nbsp;</p>
 
@@ -297,13 +329,13 @@
         <div class="syntax xml"><div class="highlight"><pre><span></span><span class="nt">&lt;dependency&gt;</span>
   <span class="nt">&lt;groupId&gt;</span>io.dinject<span class="nt">&lt;/groupId&gt;</span>
   <span class="nt">&lt;artifactId&gt;</span>dinject<span class="nt">&lt;/artifactId&gt;</span>
-  <span class="nt">&lt;version&gt;</span>0.8<span class="nt">&lt;/version&gt;</span>
+  <span class="nt">&lt;version&gt;</span>1.1<span class="nt">&lt;/version&gt;</span>
 <span class="nt">&lt;/dependency&gt;</span>
 
 <span class="nt">&lt;dependency&gt;</span>
   <span class="nt">&lt;groupId&gt;</span>io.dinject<span class="nt">&lt;/groupId&gt;</span>
   <span class="nt">&lt;artifactId&gt;</span>dinject-generator<span class="nt">&lt;/artifactId&gt;</span>
-  <span class="nt">&lt;version&gt;</span>0.8<span class="nt">&lt;/version&gt;</span>
+  <span class="nt">&lt;version&gt;</span>1.1<span class="nt">&lt;/version&gt;</span>
   <span class="nt">&lt;scope&gt;</span>provided<span class="nt">&lt;/scope&gt;</span>
 <span class="nt">&lt;/dependency&gt;</span>
 </pre></div>
