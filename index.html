@@ -208,6 +208,9 @@
       <div class="col-md-4 feature">
         <h3>@Primary and @Secondary</h3>
         <p>
+          <code>@Primary</code> matches Spring DI's <code>@Primary</code> in terms of function and use.
+        </p>
+        <p>
           When we have multiple dependencies we can use <code>@Named</code> to specify a specific dependency to use.
           Alternatively we can use <code>@Primary</code> to make a dependency the preferred dependency and
           <code>@Secondary</code> to make a dependency the least preferred dependency.
@@ -215,9 +218,6 @@
         <p>
           Generally we use <code>@Primary</code> and <code>@Secondary</code> most often when we are have dependencies in
           multiple modules/jars.
-        </p>
-        <p>
-          <code>@Primary</code> matches Spring DI's <code>@Primary</code>.
         </p>
       </div>
       <div class="col-md-6 feature mtl">
@@ -278,7 +278,7 @@
       <div class="col-md-4 feature">
         <h3>Modules</h3>
         <p>
-          We can also want perform dependency injection with beans in other modules (jars).
+          We can also want perform dependency injection with beans across multiple modules (jars).
         </p>
         <p>
           We do this by using <code>@ContextModule</code> to define the module dependencies.
