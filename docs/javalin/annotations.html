@@ -47,7 +47,7 @@
 
 <div class="jumbotron mini">
   <div class="container">
-    <h1><a href="/docs">Docs</a> / <a href="/docs/javalin">Javalin</a> / @Get etc</h1>
+    <h1><a href="/docs">Docs</a> / <a href="/docs/javalin">Javalin</a> / @Get @Post etc</h1>
   </div>
 </div>
 
@@ -58,12 +58,11 @@
       
 
 
-<h2 id="get">@Get</h2>
+<h2 id="get">@Get @Post etc</h2>
 <p>
   Annotate methods on the controller with <code>@Get</code>, <code>@Put</code>, <code>@Post</code>, <code>@Delete</code>
   or <code>@Patch</code>. Methods with these annotations will be mapped to web routes.
 </p>
-
 
 <div class="syntax java"><div class="highlight"><pre><span></span><span class="nd">@Get</span><span class="o">(</span><span class="s">&quot;:id&quot;</span><span class="o">)</span>
 <span class="kt">void</span> <span class="nf">getFoo</span><span class="o">(</span><span class="kt">long</span> <span class="n">id</span><span class="o">)</span> <span class="o">{</span>
@@ -77,8 +76,85 @@
 </pre></div>
 </div>
 
+<h2>Path parameters</h2>
+<p>
+  Path parameters have a <code>:</code> colon prefix (as they do with Javalin). For example: <code>:id</code>, <code>:name</code>,
+  <code>:date</code> etc.
+</p>
+<p>
+  The path parameter names need to be matched by method parameter names on the controller. For example:
+</p>
+<div class="syntax java"><div class="highlight"><pre><span></span><span class="nd">@Get</span><span class="o">(</span><span class="s">&quot;:id/:date/:sort&quot;</span><span class="o">)</span>
+<span class="kd">public</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">Bazz</span><span class="o">&gt;</span> <span class="nf">findBazz</span><span class="o">(</span><span class="kt">long</span> <span class="n">id</span><span class="o">,</span> <span class="n">LocalDate</span> <span class="n">date</span><span class="o">,</span> <span class="n">String</span> <span class="n">sort</span><span class="o">)</span> <span class="o">{</span> <span class="c1">// id, date, sort ... match</span>
+ <span class="o">...</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+<p>
+  The design choice is that this convention means that we don't need a <code>@PathParam</code> annotation.
+  When using JAX-RS <em>@PathParam</em> the annotation value almost always matched the method parameter and
+  so this annotation is "noise" without additional value.
+</p>
+<p>
+  As such DInject Controllers do not have a <em>@PathParam</em> annotation and instead rely on the convention
+  that the path parameter and method parameter names match.
+</p>
+
+
+<h2>Query parameters</h2>
+<p>
+  Any controller method parameter that doesn't match one of the path parameters is implicitly considered a
+  query parameter if it's type is one of:
+</p>
+<p>
+  <em>String, Integer, Long, Short, Float, Double, Boolean, BigDecimal, UUID, LocalDate, LocalTime or LocalDateTime</em>
+</p>
+<p>
+  Query parameters are considered optional / nullable.
+</p>
+<em>
+  We use <code>@QueryParam</code> when we want to define a default value for a query parameter
+  or if the query parameter used snake case or similar that doesn't match the method parameter name.
+  For example:
+</em>
+<div class="syntax java"><div class="highlight"><pre><span></span><span class="nd">@Get</span><span class="o">(</span><span class="s">&quot;:id/:date&quot;</span><span class="o">)</span>
+<span class="kd">public</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">Cat</span><span class="o">&gt;</span> <span class="nf">findCats</span><span class="o">(</span><span class="kt">long</span> <span class="n">id</span><span class="o">,</span> <span class="n">LocalDate</span> <span class="n">date</span><span class="o">,</span> <span class="nd">@QueryParam</span><span class="o">(</span><span class="n">name</span><span class="o">=</span><span class="s">&quot;order-by&quot;</span><span class="o">,</span> <span class="n">defaultValue</span><span class="o">=</span><span class="s">&quot;age&quot;</span><span class="o">)</span> <span class="n">String</span> <span class="n">orderBy</span><span class="o">)</span> <span class="o">{</span>
+  <span class="o">...</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+
+
+<h2>Body @Post/@Patch</h2>
+<p>
+
+</p>
+
+
+<h2>Paths</h2>
+<p>
+  The path defined in <code>@Path</code> and <code>@Get, @Post ...</code> etc is combined to give the full
+  path of the web route.
+</p>
+<p>
+  The web route for the <em>getBars()</em> method below is <code>/mypath/:id/some/:date</code>
+  combining the paths from both <em>@Path</em> and <em>@Get</em>.
+</p>
+
+<div class="syntax java"><div class="highlight"><pre><span></span><span class="nd">@Path</span><span class="o">(</span><span class="s">&quot;/mypath&quot;</span><span class="o">)</span>
+<span class="kd">class</span> <span class="nc">BarController</span> <span class="o">{</span>
+
+  <span class="nd">@Get</span><span class="o">(</span><span class="s">&quot;:id/some/:date&quot;</span><span class="o">)</span>
+  <span class="n">Bar</span> <span class="nf">getBars</span><span class="o">(</span><span class="n">LocalDate</span> <span class="n">date</span><span class="o">)</span> <span class="o">{</span>
+    <span class="o">...</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+
+
 <div class="next pull-right">
-  <a href="context" class="btn btn-info">Next: Context</a>
+  <a href="conversions" class="btn btn-info">Next: Type conversions</a>
 </div>
 
 
@@ -100,13 +176,13 @@
   <a href="/docs/javalin/controller">@Controller</a>
 </li>
 <li class="active">
-  <a href="/docs/javalin/annotations">@Get etc</a>
-</li>
-<li >
-  <a href="/docs/javalin/context">Context</a>
+  <a href="/docs/javalin/annotations">@Get @Post etc</a>
 </li>
 <li >
   <a href="/docs/javalin/conversions">Type conversions</a>
+</li>
+<li >
+  <a href="/docs/javalin/context">Context</a>
 </li>
 <li >
   <a href="/docs/javalin/roles">@Roles</a>
