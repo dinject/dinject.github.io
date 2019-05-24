@@ -47,7 +47,7 @@
 
 <div class="jumbotron mini">
   <div class="container">
-    <h1><a href="/">Home</a> / Javalin</h1>
+    <h1><a href="/docs">Docs</a> / <a href="/docs/javalin">Javalin</a> / Controller</h1>
   </div>
 </div>
 
@@ -57,7 +57,52 @@
     <div class="col-md-9" role="main">
       
 
-<h2>Goto <a href="/docs/javalin">/docs/javalin</a> </h2>
+
+<h2 id="controller">@Controller</h2>
+<p>
+  Create controllers with <code>@Path</code> and <code>@Controller</code>.  The <code>javalin-generator</code> will
+  generate source code for mapping web routes to the controller method.
+</p>
+<div class="syntax java"><div class="highlight"><pre><span></span><span class="nd">@Controller</span>
+<span class="nd">@Path</span><span class="o">(</span><span class="s">&quot;/hello&quot;</span><span class="o">)</span>
+<span class="kd">class</span> <span class="nc">HelloController</span> <span class="o">{</span>
+
+  <span class="kd">private</span> <span class="kd">final</span> <span class="n">MyService</span> <span class="n">myService</span><span class="o">;</span>
+
+  <span class="nd">@Inject</span>
+  <span class="n">HelloController</span><span class="o">(</span><span class="n">MyService</span> <span class="n">myService</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">this</span><span class="o">.</span><span class="na">myService</span> <span class="o">=</span> <span class="n">myService</span><span class="o">;</span>
+  <span class="o">}</span>
+
+  <span class="nd">@Get</span><span class="o">(</span><span class="s">&quot;/:id&quot;</span><span class="o">)</span>
+  <span class="n">HelloDto</span> <span class="nf">getById</span><span class="o">(</span><span class="kt">int</span> <span class="n">id</span><span class="o">,</span> <span class="n">String</span> <span class="n">otherParam</span><span class="o">)</span> <span class="o">{</span>
+    <span class="o">...</span>
+    <span class="k">return</span> <span class="k">new</span> <span class="n">HelloDto</span><span class="o">(...);</span>
+  <span class="o">}</span>
+
+
+  <span class="nd">@Post</span>
+  <span class="kt">void</span> <span class="nf">save</span><span class="o">(</span><span class="n">HelloDto</span> <span class="n">dto</span><span class="o">,</span> <span class="n">Context</span> <span class="n">context</span><span class="o">)</span> <span class="o">{</span>
+    <span class="c1">// save hello data ...</span>
+  <span class="o">}</span>
+
+  <span class="nd">@Get</span>
+  <span class="n">List</span><span class="o">&lt;</span><span class="n">HelloDto</span><span class="o">&gt;</span> <span class="nf">getAll</span><span class="o">()</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="n">myService</span><span class="o">.</span><span class="na">findAll</span><span class="o">();</span>
+  <span class="o">}</span>
+
+<span class="o">}</span>
+</pre></div>
+</div>
+<p>
+  The controllers can have dependencies injected as long as they are <code>@Singleton</code>.
+  DInject will then add them to the context used for dependency injection.
+</p>
+
+<div class="next pull-right">
+  <a href="annotations" class="btn btn-info">Next: @Get</a>
+</div>
+
 
 
     </div>
@@ -66,13 +111,13 @@
       <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm">
         <ul class="nav bs-docs-sidenav">
 
-<li class="active">
+<li >
   <a href="/javalin/">Javalin</a>
 </li>
 <li >
   <a href="/docs/javalin/maven">Maven</a>
 </li>
-<li >
+<li class="active">
   <a href="/docs/javalin/controller">@Controller</a>
 </li>
 <li >

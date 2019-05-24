@@ -47,7 +47,7 @@
 
 <div class="jumbotron mini">
   <div class="container">
-    <h1><a href="/">Home</a> / Javalin</h1>
+    <h1><a href="/docs">Docs</a> / <a href="/docs/javalin">Javalin</a> / Type conversions</h1>
   </div>
 </div>
 
@@ -57,7 +57,29 @@
     <div class="col-md-9" role="main">
       
 
-<h2>Goto <a href="/docs/javalin">/docs/javalin</a> </h2>
+
+
+<h2 id="conversions">Path type conversions</h2>
+<p>
+  There are built in type conversions for path and query parameters for the following types:
+</p>
+<ul>
+  <li>int, long, short, float, double, boolean, Integer, Long, Short, Float, Double, Boolean</li>
+  <li>BigDecimal, UUID, LocalDate, LocalTime, LocalDateTime</li>
+</ul>
+<p>
+  If an argument fails type conversion then <code>InvalidPathArgumentException</code> is thrown. This exception could
+  be mapped to a <code>404</code> response in the exception handler.
+</p>
+<p>
+  Note that <code>path</code> conversions imply the value can NOT be null. Query parameters on the other hand
+  effectively allow null (not specified) values - query parameters are deemed optional.
+</p>
+
+<div class="next pull-right">
+  <a href="roles" class="btn btn-info">Next: Roles</a>
+</div>
+
 
 
     </div>
@@ -66,7 +88,7 @@
       <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm">
         <ul class="nav bs-docs-sidenav">
 
-<li class="active">
+<li >
   <a href="/javalin/">Javalin</a>
 </li>
 <li >
@@ -81,7 +103,7 @@
 <li >
   <a href="/docs/javalin/context">Context</a>
 </li>
-<li >
+<li class="active">
   <a href="/docs/javalin/conversions">Type conversions</a>
 </li>
 <li >

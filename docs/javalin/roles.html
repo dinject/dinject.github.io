@@ -47,7 +47,7 @@
 
 <div class="jumbotron mini">
   <div class="container">
-    <h1><a href="/">Home</a> / Javalin</h1>
+    <h1><a href="/docs">Docs</a> / <a href="/docs/javalin">Javalin</a> / @Roles</h1>
   </div>
 </div>
 
@@ -57,7 +57,31 @@
     <div class="col-md-9" role="main">
       
 
-<h2>Goto <a href="/docs/javalin">/docs/javalin</a> </h2>
+
+<h2 id="roles">@Roles</h2>
+<p>
+  An application can define a <code>@Roles</code> annotation. If the annotation matches the name <code>"Roles"</code>
+  then it is deemed to define application security roles and generates appropriate code in the web route.
+</p>
+<div class="syntax java"><div class="highlight"><pre><span></span><span class="nd">@Roles</span><span class="o">({</span><span class="n">ADMIN</span><span class="o">})</span>
+<span class="nd">@Get</span>
+<span class="n">List</span><span class="o">&lt;</span><span class="n">HelloDto</span><span class="o">&gt;</span> <span class="nf">getAll</span><span class="o">()</span> <span class="o">{</span>
+  <span class="o">...</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+<p>
+  The generated code includes the Javalin roles check.
+</p>
+
+<div class="syntax java"><div class="highlight"><pre><span></span><span class="c1">// Generated code ...</span>
+
+<span class="n">ApiBuilder</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">&quot;/hello&quot;</span><span class="o">,</span> <span class="n">ctx</span> <span class="o">-&gt;</span> <span class="o">{</span>
+  <span class="n">ctx</span><span class="o">.</span><span class="na">json</span><span class="o">(</span><span class="n">controller</span><span class="o">.</span><span class="na">getAll</span><span class="o">());</span>
+  <span class="n">ctx</span><span class="o">.</span><span class="na">status</span><span class="o">(</span><span class="mi">200</span><span class="o">);</span>
+<span class="o">},</span> <span class="n">roles</span><span class="o">(</span><span class="n">ADMIN</span><span class="o">));</span>
+</pre></div>
+</div>
 
 
     </div>
@@ -66,7 +90,7 @@
       <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm">
         <ul class="nav bs-docs-sidenav">
 
-<li class="active">
+<li >
   <a href="/javalin/">Javalin</a>
 </li>
 <li >

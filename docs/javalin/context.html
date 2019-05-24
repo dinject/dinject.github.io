@@ -47,7 +47,7 @@
 
 <div class="jumbotron mini">
   <div class="container">
-    <h1><a href="/">Home</a> / Javalin</h1>
+    <h1><a href="/docs">Docs</a> / <a href="/docs/javalin">Javalin</a> / Context</h1>
   </div>
 </div>
 
@@ -57,7 +57,28 @@
     <div class="col-md-9" role="main">
       
 
-<h2>Goto <a href="/docs/javalin">/docs/javalin</a> </h2>
+
+
+<h2 id="context">Context</h2>
+<p>
+  Methods can use <code>io.javalin.Context</code> as a method argument. The web route will pass the context on to the
+  controller method.
+</p>
+<p>
+  We want to do this when we want full access including things like headers, cookies etc.
+</p>
+
+<div class="syntax java"><div class="highlight"><pre><span></span><span class="nd">@Post</span>
+<span class="kt">void</span> <span class="nf">save</span><span class="o">(</span><span class="n">HelloDto</span> <span class="n">dto</span><span class="o">,</span> <span class="n">Context</span> <span class="n">context</span><span class="o">)</span> <span class="o">{</span>
+  <span class="c1">// use javalin context, get cookies, headers ...</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+
+<div class="next pull-right">
+  <a href="conversions" class="btn btn-info">Next: Type conversions</a>
+</div>
+
 
 
     </div>
@@ -66,7 +87,7 @@
       <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm">
         <ul class="nav bs-docs-sidenav">
 
-<li class="active">
+<li >
   <a href="/javalin/">Javalin</a>
 </li>
 <li >
@@ -78,7 +99,7 @@
 <li >
   <a href="/docs/javalin/annotations">@Get etc</a>
 </li>
-<li >
+<li class="active">
   <a href="/docs/javalin/context">Context</a>
 </li>
 <li >

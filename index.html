@@ -52,7 +52,7 @@
         <div class="container">
           <h1><img src="/images/favicon.ico" width="50"> DInject - <span style="font-size:25px; font-weight: normal;">Dependency injection</span></h1>
           <!--<h2>Dependency injection</h2>-->
-          <h3>Current version - <span class="dinject-version">1.1</span></h3>
+          <h3>Current version - <span class="dinject-version">1.5</span></h3>
           <h2 style="margin-left: 30px;">Dagger2 style DI for server side JVM developers</h2>
           <h2 style="margin-left: 30px;">No reflection, no classpath scanning, no dynamic proxies</h2>
           <h2 style="margin-left: 30px;">APT based - generates source code for DI</h2>
@@ -62,7 +62,7 @@
     <div class="col-md-3 main-pg-idx">
       <ul>
         <li><h4><a href="/docs"><i class="fas fa-chevron-right"></i> Documentation</a></h4></li>
-        <li><h4><a href="/javalin"><i class="fas fa-chevron-right"></i> Javalin</a></h4></li>
+        <li><h4><a href="/docs/javalin"><i class="fas fa-chevron-right"></i> Javalin</a></h4></li>
         <li><h4><a href="/spring"><i class="fas fa-chevron-right"></i> Spring comparison</a></h4></li>
         <li><h4><a href="/dagger"><i class="fas fa-chevron-right"></i> Dagger comparison</a></h4></li>
         <li><h4><a href="/micronaut"><i class="fas fa-chevron-right"></i> Micronaut comparison</a></h4></li>
@@ -71,27 +71,6 @@
   </div>
 </div>
 
-<!--<div class="container mtl">-->
-  <!--<div class="row">-->
-    <!--<div class="col-md-9">-->
-      <!--<div id="nav-search"><form action="https://www.google.com/search" method="get" class="inline-form">
-  <div class="page-inline-search" style="margin-bottom:8px;">
-    <div class="input-group">
-      <input name="q" id="searchinput" type="text" class="form-control" placeholder="Search... (press 's' to focus)" data-placeholder-focus="Search... (use '↑', '↓' and '⏎' to select results)" data-placeholder-blur="Search... (press 's' to focus)" autocomplete="off">
-      <input type="hidden" name="as_sitesearch" value="ebean-orm.github.io">
-      <div class="input-group-btn">
-        <button class="btn btn-default form-control" type="submit"><i class="fas fa-search"></i></button>
-      </div>
-    </div>
-    <div class="search-results-inline-container" style="display: none;">
-      <ul id="search-results-container" class="search-results"><li class=" active"><a href="/docs" title="Docs"><span style="color:#777;">Docs</span> Documentation </a></li><li class=""><small style="color:#999;">And 101 more...</small></li></ul>
-    </div>
-  </div>
-</form>
-</div>-->
-    <!--</div>-->
-  <!--</div>-->
-<!--</div>-->
 
 <div class="erkbg mtl">
   <div class="container">
@@ -123,7 +102,7 @@
           <a target="_blank" href="https://google.github.io/dagger/">Google Dagger</a>
         </p>
         <p>
-          This makes it fast with low overhead, perfect for Kubernates, Docker, Microservices style development.
+          This makes it fast with low overhead, perfect for Kubernetes, Docker, Microservices style development.
         </p>
         <p>
           Annotate components with <code>@Singleton</code> and use <code>@Inject</code> to specify constructor
@@ -143,6 +122,29 @@
   <span class="o">}</span>
 
   <span class="o">...</span>
+</pre></div>
+</div>
+      </div>
+    </div>
+
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+
+    <div class="row">
+      <div class="col-md-4 feature">
+        <h3>SystemContext</h3>
+        <p>
+          SystemContext provides a simple way to get beans from the context.
+        </p>
+      </div>
+
+      <div class="col-md-6 feature mtl">
+<div class="syntax java"><div class="highlight"><pre><span></span><span class="c1">// Get a bean</span>
+<span class="n">MyInterface</span> <span class="n">mybean</span> <span class="o">=</span> <span class="n">SystemContext</span><span class="o">.</span><span class="na">getBean</span><span class="o">(</span><span class="n">MyInterface</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+
+<span class="c1">// Get all the beans that implement an interface</span>
+<span class="c1">// e.g. All WebRoutes / Controllers ... from DI Context</span>
+<span class="n">List</span><span class="o">&lt;</span><span class="n">WebRoutes</span><span class="o">&gt;</span> <span class="n">webRoutes</span> <span class="o">=</span> <span class="n">SystemContext</span><span class="o">.</span><span class="na">getBeans</span><span class="o">(</span><span class="n">WebRoutes</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
 </pre></div>
 </div>
       </div>
@@ -277,7 +279,8 @@
   <span class="c1">// create the context programmatically with some</span>
   <span class="c1">// test doubles rather than the real dependencies</span>
   <span class="k">try</span> <span class="o">(</span><span class="n">BeanContext</span> <span class="n">context</span> <span class="o">=</span> <span class="k">new</span> <span class="n">BootContext</span><span class="o">()</span>
-    <span class="o">.</span><span class="na">withBeans</span><span class="o">(</span><span class="n">mockRedis</span><span class="o">,</span> <span class="n">mockDb</span><span class="o">)</span>
+    <span class="o">.</span><span class="na">withBean</span><span class="o">(</span><span class="n">MyRedisApi</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="n">mockRedis</span><span class="o">)</span>
+    <span class="o">.</span><span class="na">withBean</span><span class="o">(</span><span class="n">MyDatabaseApi</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="n">mockDb</span><span class="o">)</span>
     <span class="o">.</span><span class="na">load</span><span class="o">())</span> <span class="o">{</span>
 
     <span class="c1">// perform a component test (using the test doubles)</span>
@@ -348,13 +351,13 @@
         <div class="syntax xml"><div class="highlight"><pre><span></span><span class="nt">&lt;dependency&gt;</span>
   <span class="nt">&lt;groupId&gt;</span>io.dinject<span class="nt">&lt;/groupId&gt;</span>
   <span class="nt">&lt;artifactId&gt;</span>dinject<span class="nt">&lt;/artifactId&gt;</span>
-  <span class="nt">&lt;version&gt;</span>1.1<span class="nt">&lt;/version&gt;</span>
+  <span class="nt">&lt;version&gt;</span>1.5<span class="nt">&lt;/version&gt;</span>
 <span class="nt">&lt;/dependency&gt;</span>
 
 <span class="nt">&lt;dependency&gt;</span>
   <span class="nt">&lt;groupId&gt;</span>io.dinject<span class="nt">&lt;/groupId&gt;</span>
   <span class="nt">&lt;artifactId&gt;</span>dinject-generator<span class="nt">&lt;/artifactId&gt;</span>
-  <span class="nt">&lt;version&gt;</span>1.1<span class="nt">&lt;/version&gt;</span>
+  <span class="nt">&lt;version&gt;</span>1.5<span class="nt">&lt;/version&gt;</span>
   <span class="nt">&lt;scope&gt;</span>provided<span class="nt">&lt;/scope&gt;</span>
 <span class="nt">&lt;/dependency&gt;</span>
 </pre></div>
