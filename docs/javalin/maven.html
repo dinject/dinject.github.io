@@ -58,7 +58,7 @@
       
 
 
-<h2 id="maven">Maven</h2>
+<h2 id="maven">Getting started with Maven</h2>
 <p>
   Add <code>dinject</code> and <code>dinject-controller</code> dependencies.
 </p>
@@ -75,25 +75,35 @@
 <span class="nt">&lt;/dependency&gt;</span>
 </pre></div>
 </div>
+
+<h3>Java APT</h3>
 <p>
-  Add the APT Annotation processors <code>dinject-generator</code> and <code>javalin-generator</code> typically
-  as scope <code>provided</code>.
+  For Java we add the APT Annotation processors <code>dinject-generator</code> and <code>javalin-generator</code>.
+  We typically use <code>provided</code> scope for these APT processors.
 </p>
-<div class="syntax xml"><div class="highlight"><pre><span></span><span class="nt">&lt;dependency&gt;</span>
+<div class="syntax xml"><div class="highlight"><pre><span></span><span class="c">&lt;!-- APT processors --&gt;</span>
+
+<span class="nt">&lt;dependency&gt;</span>
   <span class="nt">&lt;groupId&gt;</span>io.dinject<span class="nt">&lt;/groupId&gt;</span>
   <span class="nt">&lt;artifactId&gt;</span>dinject-generator<span class="nt">&lt;/artifactId&gt;</span>
-  <span class="nt">&lt;version&gt;</span>1.1<span class="nt">&lt;/version&gt;</span>
+  <span class="nt">&lt;version&gt;</span>1.5<span class="nt">&lt;/version&gt;</span>
   <span class="nt">&lt;scope&gt;</span>provided<span class="nt">&lt;/scope&gt;</span>
 <span class="nt">&lt;/dependency&gt;</span>
 
 <span class="nt">&lt;dependency&gt;</span>
   <span class="nt">&lt;groupId&gt;</span>io.dinject<span class="nt">&lt;/groupId&gt;</span>
   <span class="nt">&lt;artifactId&gt;</span>javalin-generator<span class="nt">&lt;/artifactId&gt;</span>
-  <span class="nt">&lt;version&gt;</span>1.1<span class="nt">&lt;/version&gt;</span>
+  <span class="nt">&lt;version&gt;</span>1.5<span class="nt">&lt;/version&gt;</span>
   <span class="nt">&lt;scope&gt;</span>provided<span class="nt">&lt;/scope&gt;</span>
 <span class="nt">&lt;/dependency&gt;</span>
 </pre></div>
 </div>
+
+<h3>Kotlin KAPT</h3>
+<p>
+  For Kotlin KAPT the easiest thing to do is to use a maven tile that registers the KAPT processors
+  with the Kotlin compiler.
+</p>
 
 <div class="next pull-right">
   <a href="controller" class="btn btn-info">Next: Controller</a>
@@ -108,7 +118,7 @@
         <ul class="nav bs-docs-sidenav">
 
 <li >
-  <a href="/javalin/">Javalin</a>
+  <a href="/docs/javalin/">Javalin</a>
 </li>
 <li class="active">
   <a href="/docs/javalin/maven">Maven</a>

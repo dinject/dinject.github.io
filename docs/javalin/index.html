@@ -58,7 +58,23 @@
       
 
 
-<h2>Introduction</h2>
+<h2>Javalin controllers</h2>
+<p>
+  DInject provides dependency injection which is good but when using Javalin we want a little more.
+</p>
+<p>
+  The <code>javalin-generator</code> is an APT processor that allows us to can write <code>controllers</code>
+  with annotations like <code>@Path</code> and <code>@Get</code> etc and the javalin-generator will generate
+  code that adapts Javalin Web route to the controller methods
+</p>
+<p>
+  &nbsp;
+</p>
+
+<h5>Intro</h5>
+<p>
+  Introduction to using <code>javalin-generator</code> to generate web routes for <a href="https://javalin.io">Javalin</a>.
+</p>
 
 <div class="container">
   <div class="row">
@@ -67,12 +83,112 @@
     </div>
   </div>
 </div>
+
+<h3>Example</h3>
 <p>
-  Introduction to using <code>javalin-generator</code> to generate web routes for <a href="https://javalin.io">Javalin</a>.
+  For the controller below:
+</p>
+<div class="syntax java"><div class="highlight"><pre><span></span><span class="nd">@Controller</span>
+<span class="nd">@Path</span><span class="o">(</span><span class="s">&quot;/foo&quot;</span><span class="o">)</span>
+<span class="kd">class</span> <span class="nc">FooController</span> <span class="o">{</span>
+
+  <span class="kd">final</span> <span class="n">MyDependency</span> <span class="n">myDependency</span><span class="o">;</span>
+
+  <span class="n">FooController</span><span class="o">(</span><span class="n">MyDependency</span> <span class="n">myDependency</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">this</span><span class="o">.</span><span class="na">myDependency</span> <span class="o">=</span> <span class="n">myDependency</span><span class="o">;</span>
+  <span class="o">}</span>
+
+  <span class="nd">@Get</span><span class="o">(</span><span class="s">&quot;:id/some/:other&quot;</span><span class="o">)</span>
+  <span class="n">Foo</span> <span class="nf">getById</span><span class="o">(</span><span class="kt">long</span> <span class="n">id</span><span class="o">,</span> <span class="n">String</span> <span class="n">other</span><span class="o">,</span> <span class="n">String</span> <span class="n">notPath</span><span class="o">)</span> <span class="o">{</span>
+
+    <span class="n">System</span><span class="o">.</span><span class="na field">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;got query parameter: &quot;</span><span class="o">+</span><span class="n">notPath</span><span class="o">);</span>
+    <span class="k">return</span> <span class="k">new</span> <span class="n">Foo</span><span class="o">(</span><span class="n">id</span><span class="o">,</span> <span class="n">other</span> <span class="o">+</span> <span class="n">myDependency</span><span class="o">.</span><span class="na">hello</span><span class="o">());</span>
+  <span class="o">}</span>
+
+  <span class="nd">@Roles</span><span class="o">(</span><span class="n">AppRoles</span><span class="o">.</span><span class="na">ADMIN</span><span class="o">)</span>
+  <span class="nd">@Get</span><span class="o">(</span><span class="s">&quot;/other/:name&quot;</span><span class="o">)</span>
+  <span class="kt">void</span> <span class="nf">getOther</span><span class="o">(</span><span class="n">Context</span> <span class="n">ctx</span><span class="o">,</span> <span class="n">String</span> <span class="n">name</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">System</span><span class="o">.</span><span class="na field">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;other name: &quot;</span><span class="o">+</span><span class="n">name</span><span class="o">);</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+<p>
+  The <code>javalin-generator</code> generates the code below.
+</p>
+<ul>
+  <li>A bean that implements <code>WebRoutes</code>   <b>(A)</b></li>
+  <li>Registers the web routes to Javalin ApiBuilder   <b>(B)</b></li>
+  <li>Obtains path parameters and query parameters  <b>(C)</b></li>
+  <li>Passes the path and query parameters to the controller methods  <b>(D)</b></li>
+  <li>Converts to and from JSON the controller method response or body  <b>(E)</b></li>
+  <li>Adapter @Roles for the web route <b>(F)</b></li>
+
+</ul>
+
+<div class="syntax java"><div class="highlight"><pre><span></span><span class="nd">@Generated</span><span class="o">(</span><span class="s">&quot;io.dinject.javlin.generator&quot;</span><span class="o">)</span>
+<span class="nd">@Singleton</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">FooController$route</span> <span class="kd">implements</span> <span class="n">WebRoutes</span> <span class="o">{</span>         <span class="c1">// (A)</span>
+
+ <span class="kd">private</span> <span class="kd">final</span> <span class="n">FooController</span> <span class="n">controller</span><span class="o">;</span>
+
+ <span class="kd">public</span> <span class="nf">FooController$route</span><span class="o">(</span><span class="n">FooController</span> <span class="n">controller</span><span class="o">)</span> <span class="o">{</span>
+   <span class="k">this</span><span class="o">.</span><span class="na">controller</span> <span class="o">=</span> <span class="n">controller</span><span class="o">;</span>
+ <span class="o">}</span>
+
+  <span class="nd">@Override</span>
+  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">registerRoutes</span><span class="o">()</span> <span class="o">{</span>
+
+    <span class="n">ApiBuilder</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">&quot;/foo/:id/some/:other&quot;</span><span class="o">,</span> <span class="n">ctx</span> <span class="o">-&gt;</span> <span class="o">{</span>             <span class="c1">// (B)</span>
+      <span class="n">ctx</span><span class="o">.</span><span class="na">status</span><span class="o">(</span><span class="mi">200</span><span class="o">);</span>
+      <span class="kt">long</span> <span class="n">id</span> <span class="o">=</span> <span class="n">asLong</span><span class="o">(</span><span class="n">ctx</span><span class="o">.</span><span class="na">pathParam</span><span class="o">(</span><span class="s">&quot;id&quot;</span><span class="o">));</span>                    <span class="c1">// (C)</span>
+      <span class="n">String</span> <span class="n">other</span> <span class="o">=</span> <span class="n">ctx</span><span class="o">.</span><span class="na">pathParam</span><span class="o">(</span><span class="s">&quot;other&quot;</span><span class="o">);</span>                    <span class="c1">// (C)</span>
+      <span class="n">String</span> <span class="n">notPath</span> <span class="o">=</span> <span class="n">ctx</span><span class="o">.</span><span class="na">queryParam</span><span class="o">(</span><span class="s">&quot;notPath&quot;</span><span class="o">);</span>               <span class="c1">// (C)</span>
+      <span class="n">ctx</span><span class="o">.</span><span class="na">json</span><span class="o">(</span><span class="n">controller</span><span class="o">.</span><span class="na">getById</span><span class="o">(</span><span class="n">id</span><span class="o">,</span> <span class="n">other</span><span class="o">,</span> <span class="n">notPath</span><span class="o">));</span>         <span class="c1">// (D), (E)</span>
+    <span class="o">});</span>
+
+    <span class="n">ApiBuilder</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">&quot;/foo/other/:name&quot;</span><span class="o">,</span> <span class="n">ctx</span> <span class="o">-&gt;</span> <span class="o">{</span>                 <span class="c1">// (B)</span>
+      <span class="n">ctx</span><span class="o">.</span><span class="na">status</span><span class="o">(</span><span class="mi">200</span><span class="o">);</span>
+      <span class="n">String</span> <span class="n">name</span> <span class="o">=</span> <span class="n">ctx</span><span class="o">.</span><span class="na">pathParam</span><span class="o">(</span><span class="s">&quot;name&quot;</span><span class="o">);</span>                      <span class="c1">// (C)</span>
+      <span class="n">controller</span><span class="o">.</span><span class="na">getOther</span><span class="o">(</span><span class="n">ctx</span><span class="o">,</span> <span class="n">name</span><span class="o">);</span>                           <span class="c1">// (D)</span>
+    <span class="o">},</span> <span class="n">roles</span><span class="o">(</span><span class="n">ADMIN</span><span class="o">));</span>                                           <span class="c1">// (F)</span>
+
+  <span class="o">}</span>
+
+<span class="o">}</span>
+</pre></div>
+</div>
+<p>
+  As the generated bean is a <code>@Singleton</code> DInject puts it into
+  the DI context. All these generated beans implement <code>WebRoutes</code>
+  so we can get them all out of the DI context to register them with Javalin.
 </p>
 
+<p>
+  When can register all the <code>WebRoutes</code> with Javalin.
+</p>
+
+<div class="syntax java"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+
+  <span class="n">Javalin</span> <span class="n">app</span> <span class="o">=</span> <span class="n">Javalin</span><span class="o">.</span><span class="na">create</span><span class="o">().</span><span class="na">disableStartupBanner</span><span class="o">();</span>
+
+  <span class="c1">// get all WebRoutes from DI Context</span>
+  <span class="n">List</span><span class="o">&lt;</span><span class="n">WebRoutes</span><span class="o">&gt;</span> <span class="n">webRoutes</span> <span class="o">=</span> <span class="n">SystemContext</span><span class="o">.</span><span class="na">getBeans</span><span class="o">(</span><span class="n">WebRoutes</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+
+  <span class="c1">// register all WebRoutes with Javalin</span>
+  <span class="n">app</span><span class="o">.</span><span class="na">routes</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="n">webRoutes</span><span class="o">.</span><span class="na">forEach</span><span class="o">(</span><span class="n">WebRoutes</span><span class="o">::</span><span class="n">registerRoutes</span><span class="o">));</span>
+
+  <span class="o">...</span>
+
+  <span class="c1">// start Javalin</span>
+  <span class="n">app</span><span class="o">.</span><span class="na">start</span><span class="o">(</span><span class="mi">8080</span><span class="o">);</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+
+
 <div class="next pull-right">
-  <a href="maven" class="btn btn-info">Next: Maven</a>
+  <a href="maven" class="btn btn-info">Next: Getting started with Maven</a>
 </div>
 
 
@@ -84,7 +200,7 @@
         <ul class="nav bs-docs-sidenav">
 
 <li class="active">
-  <a href="/javalin/">Javalin</a>
+  <a href="/docs/javalin/">Javalin</a>
 </li>
 <li >
   <a href="/docs/javalin/maven">Maven</a>
