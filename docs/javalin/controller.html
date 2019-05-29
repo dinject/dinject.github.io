@@ -60,51 +60,63 @@
 
 <h2 id="controller">@Controller</h2>
 <p>
-  Create controllers with <code>@Path</code> and <code>@Controller</code>.  The <code>javalin-generator</code> will
-  generate source code for mapping web routes to the controller method.
+  Create controllers with <code>@Path</code> and <code>@Controller</code>.
 </p>
+
+<h4>Controller</h4>
+<p>
+  The <code>javalin-generator</code> (APT processor) detects classes with
+  <code>@Controller</code> and generates source code for mapping web routes
+  to the controller method.
+</p>
+
+<h4>Path</h4>
+<p>
+  <code>@Path("/contacts")</code> provides the path segment that is
+  prepended to any path segments defined by <code>@Get</code> etc.
+</p>
+
+
 <div class="syntax java"><div class="highlight"><pre><span></span><span class="nd">@Controller</span>
-<span class="nd">@Path</span><span class="o">(</span><span class="s">&quot;/foo&quot;</span><span class="o">)</span>
-<span class="kd">class</span> <span class="nc">FooController</span> <span class="o">{</span>
+<span class="nd">@Path</span><span class="o">(</span><span class="s">&quot;/contacts&quot;</span><span class="o">)</span>
+<span class="kd">class</span> <span class="nc">ContactController</span> <span class="o">{</span>
 
   <span class="kd">private</span> <span class="kd">final</span> <span class="n">MyService</span> <span class="n">myService</span><span class="o">;</span>
 
   <span class="nd">@Inject</span>
-  <span class="n">FooController</span><span class="o">(</span><span class="n">MyService</span> <span class="n">myService</span><span class="o">)</span> <span class="o">{</span>
+  <span class="n">ContactController</span><span class="o">(</span><span class="n">MyService</span> <span class="n">myService</span><span class="o">)</span> <span class="o">{</span>
     <span class="k">this</span><span class="o">.</span><span class="na">myService</span> <span class="o">=</span> <span class="n">myService</span><span class="o">;</span>
   <span class="o">}</span>
 
   <span class="nd">@Get</span><span class="o">(</span><span class="s">&quot;/:id&quot;</span><span class="o">)</span>
-  <span class="n">Foo</span> <span class="nf">getById</span><span class="o">(</span><span class="kt">int</span> <span class="n">id</span><span class="o">,</span> <span class="n">String</span> <span class="n">otherParam</span><span class="o">)</span> <span class="o">{</span>
+  <span class="n">Contact</span> <span class="nf">getById</span><span class="o">(</span><span class="kt">long</span> <span class="n">id</span><span class="o">)</span> <span class="o">{</span>
     <span class="o">...</span>
   <span class="o">}</span>
 
   <span class="nd">@Post</span>
-  <span class="kt">void</span> <span class="nf">save</span><span class="o">(</span><span class="n">Foo</span> <span class="n">foo</span><span class="o">)</span> <span class="o">{</span>
+  <span class="kt">void</span> <span class="nf">save</span><span class="o">(</span><span class="n">Contact</span> <span class="n">contact</span><span class="o">)</span> <span class="o">{</span>
     <span class="o">...</span>
   <span class="o">}</span>
 
-  <span class="nd">@Get</span>
-  <span class="n">List</span><span class="o">&lt;</span><span class="n">Foo</span><span class="o">&gt;</span> <span class="nf">getAll</span><span class="o">()</span> <span class="o">{</span>
-    <span class="k">return</span> <span class="n">myService</span><span class="o">.</span><span class="na">findAll</span><span class="o">();</span>
-  <span class="o">}</span>
+  <span class="o">...</span>
 <span class="o">}</span>
 </pre></div>
 </div>
 <p>
-  The controllers can have dependencies injected. DInject will then add them to the context
-  used for dependency injection.
+  The controllers can have dependencies injected.
 </p>
+
+
 
 <h2>Testing</h2>
 <p>
   One of the big motivations of having these controllers is to help with testing.
 </p>
 <p>
-  When testing the FooController:
+  When testing the ContactController:
 </p>
 <ul>
-  <li>We can create FooController instances with mock/test doubles for it's dependencies (MyService)</li>
+  <li>We can create ContactController instances with mock/test doubles for it's dependencies (MyService)</li>
   <li>We can largely test the methods without any web context/request/response objects</li>
 </ul>
 
@@ -124,10 +136,13 @@
   <a href="/docs/javalin/">Javalin</a>
 </li>
 <li >
+  <a href="/docs/javalin/jaxrs">JAX-RS</a>
+</li>
+<li >
   <a href="/docs/javalin/maven">Maven</a>
 </li>
 <li class="active">
-  <a href="/docs/javalin/controller">@Controller</a>
+  <a href="/docs/javalin/controller">@Controller @Path</a>
 </li>
 <li >
   <a href="/docs/javalin/annotations">@Get @Post etc</a>
