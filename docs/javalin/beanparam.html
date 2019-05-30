@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>DInject Javalin controllers</title>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta id="layout-head" />
+  <link rel="shortcut icon" href="/images/favicon.ico" >
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
+  <link rel="stylesheet" href="/css/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="/css/site.css">
+
+</head>
+  <body>
+  <div id="wrap">
+    <div id="header">
+    <div class="navbar" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="/">
+            <!--<img src="/images/lg5-21x100.png" height="35">-->
+          </a>
+        </div>
+        <div class="collapse navbar-collapse">
+          <ul class="nav navbar-nav pull-right nav-btn-rhs">
+            <li ><a href="/"><span class="fas fa-home"></span>  Home</a></li>
+            <li ><a href="/docs">Docs</a></li>
+            <li class="active"><a href="/docs/javalin">Javalin</a></li>
+            <li ><a target="_blank" href="/apidocs/current">ApiDocs</a></li>
+            <li ><a href="https://github.com/dinject/dinject/releases">Releases</a></li>
+            <li ><a target="_blank" href="https://github.com/dinject/dinject"> <i class="fab fa-github"></i></a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+
+  </div>
+  <div id="main">
+
+<div class="jumbotron mini">
+  <div class="container">
+    <h1><a href="/docs">Docs</a> / <a href="/docs/javalin">Javalin</a> / @BeanParam</h1>
+  </div>
+</div>
+
+<div class="container">
+  <div class="row">
+
+    <div class="col-md-9" role="main">
+      
+
+
+<h2 id="beanparam">@BeanParam</h2>
+<p>
+  We can create a bean and annotate with <code>@BeanParam</code>.
+  The properties on the bean default to being <code>query parameters</code>.
+</p>
+<p>
+  We typically do this when we have a set of query parameters that are
+  common / shared across a number of endpoints.
+</p>
+<div class="syntax java"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">CommonParams</span> <span class="o">{</span>
+
+  <span class="kd">public</span> <span class="n">Long</span> <span class="n">firstRow</span><span class="o">;</span>
+  <span class="kd">public</span> <span class="n">Long</span> <span class="n">maxRows</span><span class="o">;</span>
+  <span class="kd">public</span> <span class="n">String</span> <span class="n">sortBy</span><span class="o">;</span>
+  <span class="kd">public</span> <span class="n">String</span> <span class="n">filter</span><span class="o">;</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+<p>
+  We annotate the bean with <code>@BeanParam</code>
+</p>
+<div class="syntax java"><div class="highlight"><pre><span></span><span class="nd">@Get</span><span class="o">(</span><span class="s">&quot;search/:type&quot;</span><span class="o">)</span>
+<span class="n">List</span><span class="o">&lt;</span><span class="n">Cat</span><span class="o">&gt;</span> <span class="nf">findCats</span><span class="o">(</span><span class="n">String</span> <span class="n">type</span><span class="o">,</span> <span class="nd">@BeanParam</span> <span class="n">CommonParams</span> <span class="n">params</span><span class="o">)</span> <span class="o">{</span>
+
+  <span class="o">...</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+<p>
+  The generated code for the above is:
+</p>
+<div class="syntax java"><div class="highlight"><pre><span></span><span class="n">ApiBuilder</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">&quot;/cats/search/:type&quot;</span><span class="o">,</span> <span class="n">ctx</span> <span class="o">-&gt;</span> <span class="o">{</span>
+  <span class="n">ctx</span><span class="o">.</span><span class="na">status</span><span class="o">(</span><span class="mi">200</span><span class="o">);</span>
+  <span class="n">String</span> <span class="n">type</span> <span class="o">=</span> <span class="n">ctx</span><span class="o">.</span><span class="na">pathParam</span><span class="o">(</span><span class="s">&quot;type&quot;</span><span class="o">);</span>
+  <span class="n">CommonParams</span> <span class="n">params</span> <span class="o">=</span>  <span class="k">new</span> <span class="n">CommonParams</span><span class="o">();</span>
+  <span class="n">params</span><span class="o">.</span><span class="na">firstRow</span> <span class="o">=</span> <span class="n">toLong</span><span class="o">(</span><span class="n">ctx</span><span class="o">.</span><span class="na">queryParam</span><span class="o">(</span><span class="s">&quot;firstRow&quot;</span><span class="o">));</span>
+  <span class="n">params</span><span class="o">.</span><span class="na">maxRows</span> <span class="o">=</span> <span class="n">toLong</span><span class="o">(</span><span class="n">ctx</span><span class="o">.</span><span class="na">queryParam</span><span class="o">(</span><span class="s">&quot;maxRows&quot;</span><span class="o">));</span>
+  <span class="n">params</span><span class="o">.</span><span class="na">sortBy</span> <span class="o">=</span> <span class="n">ctx</span><span class="o">.</span><span class="na">queryParam</span><span class="o">(</span><span class="s">&quot;sortBy&quot;</span><span class="o">);</span>
+  <span class="n">params</span><span class="o">.</span><span class="na">filter</span> <span class="o">=</span> <span class="n">ctx</span><span class="o">.</span><span class="na">queryParam</span><span class="o">(</span><span class="s">&quot;filter&quot;</span><span class="o">);</span>
+
+  <span class="n">ctx</span><span class="o">.</span><span class="na">json</span><span class="o">(</span><span class="n">controller</span><span class="o">.</span><span class="na">findCats</span><span class="o">(</span><span class="n">type</span><span class="o">,</span> <span class="n">params</span><span class="o">));</span>
+<span class="o">});</span>
+</pre></div>
+</div>
+<h4>@Form</h4>
+<p>
+  <em>@BeanParam</em> and <em>@Form</em> are very similar except with <em>@Form</em> beans the
+  properties default to form parameters and with <em>@BeanParam</em> they default to query
+  parameters.
+</p>
+<p>
+  We could use <em>@BeanParam</em> with forms but then we need to put <em>@FormParam</em> on
+  each of the form parameter properties (like JAX-RS).
+</p>
+
+<h4>JAX-RS @BeanParam</h4>
+<p>
+  Our <em>@BeanParam</em> is virtually the same as JAX-RS <em>@BeanParam</em> except the properties
+  default to being query parameters (where as with JAX-RS we need to annotate each of the properties).
+  We can do this because we have <em>@Form</em> and "Form beans".
+</p>
+
+
+
+<h4>BeanParam beans with @Header, @Cookie properties</h4>
+<p>
+  The properties on a "bean" default to being query parameters. We put <em>@Header</em> or
+  <em>@Cookie</em> on properties that are instead headers or cookies.
+</p>
+<div class="syntax java"><div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">CommonParams</span> <span class="o">{</span>
+
+  <span class="kd">public</span> <span class="n">Long</span> <span class="n">firstRow</span><span class="o">;</span>
+  <span class="kd">public</span> <span class="n">Long</span> <span class="n">maxRows</span><span class="o">;</span>
+  <span class="kd">public</span> <span class="n">String</span> <span class="n">sortBy</span><span class="o">;</span>
+  <span class="kd">public</span> <span class="n">String</span> <span class="n">filter</span>
+
+  <span class="nd">@Header</span>
+  <span class="kd">public</span> <span class="n">String</span> <span class="n">ifModifiedSince</span><span class="o">;</span>
+
+  <span class="nd">@Cookie</span>
+  <span class="kd">public</span> <span class="n">String</span> <span class="n">myState</span><span class="o">;</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+
+<div class="next pull-right">
+  <a href="conversions" class="btn btn-info">Next: Type conversions</a>
+</div>
+
+
+
+
+    </div>
+
+    <div class="col-md-3" role="complementary">
+      <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm">
+        <ul class="nav bs-docs-sidenav">
+
+<li >
+  <a href="/docs/javalin/">Javalin</a>
+</li>
+<li >
+  <a href="/docs/javalin/jaxrs">JAX-RS</a>
+</li>
+<li >
+  <a href="/docs/javalin/maven">Maven</a>
+</li>
+<li >
+  <a href="/docs/javalin/controller">@Controller + @Path</a>
+</li>
+<li >
+  <a href="/docs/javalin/get">@Get</a>
+</li>
+
+<li >
+  <a href="/docs/javalin/post">@Post + @Form</a>
+</li>
+<li >
+  <a href="/docs/javalin/put">@Put</a>
+</li>
+<li >
+  <a href="/docs/javalin/put#patch">@Patch</a>
+</li>
+<li >
+  <a href="/docs/javalin/put#delete">@Delete</a>
+</li>
+<li class="active">
+  <a href="/docs/javalin/beanparam">@BeanParam</a>
+</li>
+<li >
+  <a href="/docs/javalin/conversions">Type conversions</a>
+</li>
+<li >
+  <a href="/docs/javalin/context">Context</a>
+</li>
+<li >
+  <a href="/docs/javalin/roles">@Roles</a>
+</li>
+
+        </ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+  </div>
+</div>
+
+
+<footer id="footer">
+  <div class="doc-footer">
+    <ul class="doc-footer-links">
+      <li> </li>
+      <li> | </li>
+      <li> | </li>
+    </ul>
+  </div>
+</footer>
+
+  <script type="text/javascript">
+    var categoryNames = {};
+  </script>
+
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+  <script src="/js/bootstrap.min.js"></script>
+  <script src="/js/jquery.easing.min.js"></script>
+
+    <script src="/js/jquery.storageapi.min.js"></script>
+  <script src="/js/ebean-site.js"></script>
+  <script src="/js/extra.js"></script>
+
+
+  </body>
+</html>

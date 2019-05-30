@@ -143,12 +143,12 @@
 </div>
 <p>
   We use <code>@QueryParam</code> when we want to be explicit or when a query parameter uses snake case
-  or similar that doesn't match the method parameter name (a valid Java/Kotlin parameter name).
+  or similar that isn't a valid Java/Kotlin identifier.
   For example:
 </p>
 <p>
   In the following example we explicitly use <em>@QueryParam("order-by")</em> because of snake case parameter
-  <code>"order-by"</code> is not a valid Java/Kotlin method parameter name.
+  <code>"order-by"</code> is not a valid Java/Kotlin identifier.
 </p>
 <div class="syntax java"><div class="highlight"><pre><span></span><span class="nd">@Get</span><span class="o">(</span><span class="s">&quot;:id/:date&quot;</span><span class="o">)</span>
 <span class="kd">public</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">Cat</span><span class="o">&gt;</span> <span class="nf">findCats</span><span class="o">(</span><span class="kt">long</span> <span class="n">id</span><span class="o">,</span> <span class="n">LocalDate</span> <span class="n">date</span><span class="o">,</span> <span class="nd">@QueryParam</span><span class="o">(</span><span class="s">&quot;order-by&quot;</span><span class="o">)</span> <span class="n">String</span> <span class="n">orderBy</span><span class="o">)</span> <span class="o">{</span>
@@ -199,7 +199,9 @@
 <li >
   <a href="/docs/javalin/put#delete">@Delete</a>
 </li>
-
+<li >
+  <a href="/docs/javalin/beanparam">@BeanParam</a>
+</li>
 <li >
   <a href="/docs/javalin/conversions">Type conversions</a>
 </li>
