@@ -34,6 +34,7 @@
           <ul class="nav navbar-nav pull-right nav-btn-rhs">
             <li ><a href="/"><span class="fas fa-home"></span>  Home</a></li>
             <li class="active"><a href="/docs">Docs</a></li>
+            <li ><a href="/docs/javalin">Javalin</a></li>
             <li ><a target="_blank" href="/apidocs/current">ApiDocs</a></li>
             <li ><a href="https://github.com/dinject/dinject/releases">Releases</a></li>
             <li ><a target="_blank" href="https://github.com/dinject/dinject"> <i class="fab fa-github"></i></a></li>
@@ -109,6 +110,7 @@
     <span class="n">CoffeeMaker</span> <span class="n">coffeeMaker</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="na">getBean</span><span class="o">(</span><span class="n">CoffeeMaker</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
     <span class="n">coffeeMaker</span><span class="o">.</span><span class="na">makeIt</span><span class="o">();</span>
 
+    <span class="n">Grinder</span> <span class="n">grinder</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="na">getBean</span><span class="o">(</span><span class="n">Grinder</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
     <span class="n">verify</span><span class="o">(</span><span class="n">grinder</span><span class="o">).</span><span class="na">grindBeans</span><span class="o">();</span>
 <span class="o">}</span>
 </pre></div>
@@ -170,6 +172,9 @@
 </li>
 <li >
   <a href="/docs/modules">Modules</a>
+</li>
+<li >
+  <a href="/docs/javalin">Javalin</a>
 </li>
 
         </ul>

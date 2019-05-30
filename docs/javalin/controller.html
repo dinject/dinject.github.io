@@ -34,6 +34,7 @@
           <ul class="nav navbar-nav pull-right nav-btn-rhs">
             <li ><a href="/"><span class="fas fa-home"></span>  Home</a></li>
             <li ><a href="/docs">Docs</a></li>
+            <li class="active"><a href="/docs/javalin">Javalin</a></li>
             <li ><a target="_blank" href="/apidocs/current">ApiDocs</a></li>
             <li ><a href="https://github.com/dinject/dinject/releases">Releases</a></li>
             <li ><a target="_blank" href="https://github.com/dinject/dinject"> <i class="fab fa-github"></i></a></li>
@@ -65,7 +66,7 @@
 
 <h4>Controller</h4>
 <p>
-  The <code>javalin-generator</code> (APT processor) detects classes with
+  The <em>javalin-generator</em> (APT processor) detects classes with
   <code>@Controller</code> and generates source code for mapping web routes
   to the controller method.
 </p>
@@ -73,7 +74,7 @@
 <h4>Path</h4>
 <p>
   <code>@Path("/contacts")</code> provides the path segment that is
-  prepended to any path segments defined by <code>@Get</code> etc.
+  prepended to any path segments defined by <code>@Get</code>, <code>@Post</code> etc.
 </p>
 
 
@@ -121,7 +122,7 @@
 </ul>
 
 <div class="next pull-right">
-  <a href="annotations" class="btn btn-info">Next: @Get @Post etc</a>
+  <a href="get" class="btn btn-info">Next: @Get</a>
 </div>
 
 
@@ -142,11 +143,25 @@
   <a href="/docs/javalin/maven">Maven</a>
 </li>
 <li class="active">
-  <a href="/docs/javalin/controller">@Controller @Path</a>
+  <a href="/docs/javalin/controller">@Controller + @Path</a>
 </li>
 <li >
-  <a href="/docs/javalin/annotations">@Get @Post etc</a>
+  <a href="/docs/javalin/get">@Get</a>
 </li>
+
+<li >
+  <a href="/docs/javalin/post">@Post + @Form</a>
+</li>
+<li >
+  <a href="/docs/javalin/put">@Put</a>
+</li>
+<li >
+  <a href="/docs/javalin/put#patch">@Patch</a>
+</li>
+<li >
+  <a href="/docs/javalin/put#delete">@Delete</a>
+</li>
+
 <li >
   <a href="/docs/javalin/conversions">Type conversions</a>
 </li>

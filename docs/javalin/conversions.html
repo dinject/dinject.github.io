@@ -34,6 +34,7 @@
           <ul class="nav navbar-nav pull-right nav-btn-rhs">
             <li ><a href="/"><span class="fas fa-home"></span>  Home</a></li>
             <li ><a href="/docs">Docs</a></li>
+            <li class="active"><a href="/docs/javalin">Javalin</a></li>
             <li ><a target="_blank" href="/apidocs/current">ApiDocs</a></li>
             <li ><a href="https://github.com/dinject/dinject/releases">Releases</a></li>
             <li ><a target="_blank" href="https://github.com/dinject/dinject"> <i class="fab fa-github"></i></a></li>
@@ -59,21 +60,45 @@
 
 
 
-<h2 id="conversions">Path type conversions</h2>
+<h2 id="conversions">Type conversions</h2>
 <p>
-  There are built in type conversions for path and query parameters for the following types:
+  There are built in type conversions for the following types:
 </p>
 <ul>
   <li>int, long, short, float, double, boolean, Integer, Long, Short, Float, Double, Boolean</li>
   <li>BigDecimal, UUID, LocalDate, LocalTime, LocalDateTime</li>
 </ul>
 <p>
-  If an argument fails type conversion then <code>InvalidPathArgumentException</code> is thrown. This exception could
-  be mapped to a <code>404</code> response in the exception handler.
+  In the following example there is a type conversion for <em>startDate</em> and <em>active</em>.
+</p>
+
+<div class="syntax java"><div class="highlight"><pre><span></span><span class="nd">@Get</span><span class="o">(</span><span class="s">&quot;/:id/:name&quot;</span><span class="o">)</span>
+<span class="n">HelloDto</span> <span class="nf">hello</span><span class="o">(</span><span class="kt">int</span> <span class="n">id</span><span class="o">,</span> <span class="n">String</span> <span class="n">name</span><span class="o">,</span> <span class="n">LocalDate</span> <span class="n">startDate</span><span class="o">,</span> <span class="n">Boolean</span> <span class="n">active</span><span class="o">)</span> <span class="o">{</span>
+  <span class="o">...</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+The generated code includes the type conversion with <code>toLocalDate()</code> and <code>toBoolean()</code>.
+<div class="syntax java"><div class="highlight"><pre><span></span><span class="n">ApiBuilder</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">&quot;/hello/:id/:name&quot;</span><span class="o">,</span> <span class="n">ctx</span> <span class="o">-&gt;</span> <span class="o">{</span>
+  <span class="n">ctx</span><span class="o">.</span><span class="na">status</span><span class="o">(</span><span class="mi">200</span><span class="o">);</span>
+  <span class="kt">int</span> <span class="n">id</span> <span class="o">=</span> <span class="n">asInt</span><span class="o">(</span><span class="n">ctx</span><span class="o">.</span><span class="na">pathParam</span><span class="o">(</span><span class="s">&quot;id&quot;</span><span class="o">));</span>
+  <span class="n">String</span> <span class="n">name</span> <span class="o">=</span> <span class="n">ctx</span><span class="o">.</span><span class="na">pathParam</span><span class="o">(</span><span class="s">&quot;name&quot;</span><span class="o">);</span>
+  <span class="n">LocalDate</span> <span class="n">startDate</span> <span class="o">=</span> <span class="n">toLocalDate</span><span class="o">(</span><span class="n">ctx</span><span class="o">.</span><span class="na">queryParam</span><span class="o">(</span><span class="s">&quot;startDate&quot;</span><span class="o">));</span>
+  <span class="n">Boolean</span> <span class="n">active</span> <span class="o">=</span> <span class="n">toBoolean</span><span class="o">(</span><span class="n">ctx</span><span class="o">.</span><span class="na">queryParam</span><span class="o">(</span><span class="s">&quot;active&quot;</span><span class="o">));</span>
+  <span class="n">ctx</span><span class="o">.</span><span class="na">json</span><span class="o">(</span><span class="n">controller</span><span class="o">.</span><span class="na">hello</span><span class="o">(</span><span class="n">id</span><span class="o">,</span> <span class="n">name</span><span class="o">,</span> <span class="n">startDate</span><span class="o">,</span> <span class="n">active</span><span class="o">));</span>
+<span class="o">});</span>
+</pre></div>
+</div>
+
+
+<h3>InvalidPathArgumentException</h3>
+<p>
+  If a parameter fails type conversion then <code>InvalidPathArgumentException</code> is thrown.
+  This exception is typically mapped to a <code>404</code> response in the exception handler.
 </p>
 <p>
-  Note that <code>path</code> conversions imply the value can NOT be null. Query parameters on the other hand
-  effectively allow null (not specified) values - query parameters are deemed optional.
+  Note that <code>path</code> conversions imply the value can NOT be null. All other parameter
+  types are considered optional/nullable.
 </p>
 
 <div class="next pull-right">
@@ -98,11 +123,25 @@
   <a href="/docs/javalin/maven">Maven</a>
 </li>
 <li >
-  <a href="/docs/javalin/controller">@Controller @Path</a>
+  <a href="/docs/javalin/controller">@Controller + @Path</a>
 </li>
 <li >
-  <a href="/docs/javalin/annotations">@Get @Post etc</a>
+  <a href="/docs/javalin/get">@Get</a>
 </li>
+
+<li >
+  <a href="/docs/javalin/post">@Post + @Form</a>
+</li>
+<li >
+  <a href="/docs/javalin/put">@Put</a>
+</li>
+<li >
+  <a href="/docs/javalin/put#patch">@Patch</a>
+</li>
+<li >
+  <a href="/docs/javalin/put#delete">@Delete</a>
+</li>
+
 <li class="active">
   <a href="/docs/javalin/conversions">Type conversions</a>
 </li>
