@@ -261,12 +261,16 @@
       <div class="col-md-4 feature">
         <h3>Testing</h3>
         <p>
-          During testing we sometime want to wire the graph but supply some test doubles or mocks for
-          some of the dependencies (similar to Spring test scope).
+          During testing we often want to supply some test doubles
+          or use Mockito mocks or spy's.
         </p>
-        <p>
 
-        </p>
+        <ul>
+          <li><a href="/docs/test-doubles#withBeans">Test doubles</a></li>
+          <li><a href="/docs/test-doubles#withMock">Mockito mock</a></li>
+          <li><a href="/docs/test-doubles#withSpy">Mockito spy</a></li>
+        </ul>
+
       </div>
       <div class="col-md-6 feature mtl">
       <div class="syntax java"><div class="highlight"><pre><span></span><span class="nd">@Test</span>
@@ -350,13 +354,13 @@
         <div class="syntax xml"><div class="highlight"><pre><span></span><span class="nt">&lt;dependency&gt;</span>
   <span class="nt">&lt;groupId&gt;</span>io.dinject<span class="nt">&lt;/groupId&gt;</span>
   <span class="nt">&lt;artifactId&gt;</span>dinject<span class="nt">&lt;/artifactId&gt;</span>
-  <span class="nt">&lt;version&gt;</span>1.5<span class="nt">&lt;/version&gt;</span>
+  <span class="nt">&lt;version&gt;</span>1.6<span class="nt">&lt;/version&gt;</span>
 <span class="nt">&lt;/dependency&gt;</span>
 
 <span class="nt">&lt;dependency&gt;</span>
   <span class="nt">&lt;groupId&gt;</span>io.dinject<span class="nt">&lt;/groupId&gt;</span>
   <span class="nt">&lt;artifactId&gt;</span>dinject-generator<span class="nt">&lt;/artifactId&gt;</span>
-  <span class="nt">&lt;version&gt;</span>1.5<span class="nt">&lt;/version&gt;</span>
+  <span class="nt">&lt;version&gt;</span>1.6<span class="nt">&lt;/version&gt;</span>
   <span class="nt">&lt;scope&gt;</span>provided<span class="nt">&lt;/scope&gt;</span>
 <span class="nt">&lt;/dependency&gt;</span>
 </pre></div>
