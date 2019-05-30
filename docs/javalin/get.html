@@ -73,12 +73,12 @@
     <span class="o">...</span>
   <span class="o">}</span>
 
-  <span class="nd">@Get</span><span class="o">(</span><span class="s">&quot;:id&quot;</span><span class="o">)</span>
+  <span class="nd">@Get</span><span class="o">(</span><span class="s">&quot;/:id&quot;</span><span class="o">)</span>
   <span class="n">Customer</span> <span class="nf">getById</span><span class="o">(</span><span class="kt">long</span> <span class="n">id</span><span class="o">)</span> <span class="o">{</span>
     <span class="o">...</span>
   <span class="o">}</span>
 
-  <span class="nd">@Get</span><span class="o">(</span><span class="s">&quot;:id/contacts&quot;</span><span class="o">)</span>
+  <span class="nd">@Get</span><span class="o">(</span><span class="s">&quot;/:id/contacts&quot;</span><span class="o">)</span>
   <span class="n">List</span><span class="o">&lt;</span><span class="n">Contacts</span><span class="o">&gt;</span> <span class="nf">getContacts</span><span class="o">(</span><span class="kt">long</span> <span class="n">id</span><span class="o">)</span> <span class="o">{</span>
     <span class="o">...</span>
   <span class="o">}</span>
@@ -95,7 +95,7 @@
 <p>
   The path parameter names need to be matched by method parameter names on the controller. For example:
 </p>
-<div class="syntax java"><div class="highlight"><pre><span></span><span class="nd">@Get</span><span class="o">(</span><span class="s">&quot;:id/:startDate/:sort&quot;</span><span class="o">)</span>
+<div class="syntax java"><div class="highlight"><pre><span></span><span class="nd">@Get</span><span class="o">(</span><span class="s">&quot;/:id/:startDate/:sort&quot;</span><span class="o">)</span>
 <span class="n">List</span><span class="o">&lt;</span><span class="n">Bazz</span><span class="o">&gt;</span> <span class="nf">findBazz</span><span class="o">(</span><span class="kt">long</span> <span class="n">id</span><span class="o">,</span> <span class="n">LocalDate</span> <span class="n">startDate</span><span class="o">,</span> <span class="n">String</span> <span class="n">sort</span><span class="o">)</span> <span class="o">{</span>
 
   <span class="c1">// id, startDate, sort ... match</span>
@@ -118,7 +118,7 @@
 <div class="syntax java"><div class="highlight"><pre><span></span><span class="c1">// JAX-RS</span>
 
 <span class="nd">@GET</span>
-<span class="nd">@Path</span><span class="o">(</span><span class="s">&quot;{id}/{startDate}/{sort}&quot;</span><span class="o">)</span>
+<span class="nd">@Path</span><span class="o">(</span><span class="s">&quot;/{id}/{startDate}/{sort}&quot;</span><span class="o">)</span>
 <span class="n">List</span><span class="o">&lt;</span><span class="n">Bazz</span><span class="o">&gt;</span> <span class="nf">findBazz</span><span class="o">(</span><span class="nd">@PathParam</span><span class="o">(</span><span class="s">&quot;id&quot;</span><span class="o">)</span> <span class="kt">long</span> <span class="n">id</span><span class="o">,</span> <span class="nd">@PathParam</span><span class="o">(</span><span class="s">&quot;startDate&quot;</span><span class="o">)</span> <span class="n">LocalDate</span> <span class="n">startDate</span><span class="o">,</span> <span class="nd">@PathParam</span><span class="o">(</span><span class="s">&quot;sort&quot;</span><span class="o">)</span> <span class="n">String</span> <span class="n">sort</span><span class="o">)</span> <span class="o">{</span>
 
   <span class="c1">// we start getting &quot;annotation noise&quot; ...</span>
@@ -135,7 +135,7 @@
 <p>
   In the following example <code>orderBy</code> is not a path parameter and defaults to being a <code>@QueryParam</code>
 </p>
-<div class="syntax java"><div class="highlight"><pre><span></span><span class="nd">@Get</span><span class="o">(</span><span class="s">&quot;:id/:date&quot;</span><span class="o">)</span>
+<div class="syntax java"><div class="highlight"><pre><span></span><span class="nd">@Get</span><span class="o">(</span><span class="s">&quot;/:id/:date&quot;</span><span class="o">)</span>
 <span class="kd">public</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">Cat</span><span class="o">&gt;</span> <span class="nf">findCats</span><span class="o">(</span><span class="kt">long</span> <span class="n">id</span><span class="o">,</span> <span class="n">LocalDate</span> <span class="n">date</span><span class="o">,</span> <span class="n">String</span> <span class="n">orderBy</span><span class="o">)</span> <span class="o">{</span>
   <span class="o">...</span>
 <span class="o">}</span>
@@ -150,7 +150,7 @@
   In the following example we explicitly use <em>@QueryParam("order-by")</em> because of snake case parameter
   <code>"order-by"</code> is not a valid Java/Kotlin identifier.
 </p>
-<div class="syntax java"><div class="highlight"><pre><span></span><span class="nd">@Get</span><span class="o">(</span><span class="s">&quot;:id/:date&quot;</span><span class="o">)</span>
+<div class="syntax java"><div class="highlight"><pre><span></span><span class="nd">@Get</span><span class="o">(</span><span class="s">&quot;/:id/:date&quot;</span><span class="o">)</span>
 <span class="kd">public</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">Cat</span><span class="o">&gt;</span> <span class="nf">findCats</span><span class="o">(</span><span class="kt">long</span> <span class="n">id</span><span class="o">,</span> <span class="n">LocalDate</span> <span class="n">date</span><span class="o">,</span> <span class="nd">@QueryParam</span><span class="o">(</span><span class="s">&quot;order-by&quot;</span><span class="o">)</span> <span class="n">String</span> <span class="n">orderBy</span><span class="o">)</span> <span class="o">{</span>
   <span class="o">...</span>
 <span class="o">}</span>
