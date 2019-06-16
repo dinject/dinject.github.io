@@ -102,8 +102,45 @@
 
 <h3>Kotlin KAPT</h3>
 <p>
-  For Kotlin KAPT the easiest thing to do is to use a maven tile that registers the KAPT processors
-  with the Kotlin compiler.
+  For use with Kotlin we register both <em>javalin-generator</em> and <em>dinject-generator</em>
+  as a KAPT processors to the Kotlin compiler.
+</p>
+<p>
+  The easiest way to do this is to add the <code>io.dinject.kapt:javalin:1.6</code>
+  maven tile in <em>build / plugins</em> like:
+</p>
+<div class="syntax xml"><div class="highlight"><pre><span></span><span class="nt">&lt;build&gt;</span>
+  <span class="nt">&lt;plugins&gt;</span>
+
+    <span class="nt">&lt;plugin&gt;</span>
+      <span class="nt">&lt;groupId&gt;</span>io.repaint.maven<span class="nt">&lt;/groupId&gt;</span>
+      <span class="nt">&lt;artifactId&gt;</span>tiles-maven-plugin<span class="nt">&lt;/artifactId&gt;</span>
+      <span class="nt">&lt;version&gt;</span>2.12<span class="nt">&lt;/version&gt;</span>
+      <span class="nt">&lt;extensions&gt;</span>true<span class="nt">&lt;/extensions&gt;</span>
+      <span class="nt">&lt;configuration&gt;</span>
+        <span class="nt">&lt;tiles&gt;</span>
+          <span class="nt">&lt;tile&gt;</span>io.dinject.kapt:javalin:1.6<span class="nt">&lt;/tile&gt;</span>
+        <span class="nt">&lt;/tiles&gt;</span>
+      <span class="nt">&lt;/configuration&gt;</span>
+    <span class="nt">&lt;/plugin&gt;</span>
+
+  <span class="nt">&lt;/plugins&gt;</span>
+<span class="nt">&lt;/build&gt;</span>
+</pre></div>
+</div>
+<p>
+  With Kotlin KAPT the source code isn't generated automatically on compile (as it is with Java)
+  but instead we can specify the source code to be re-generated via:
+</p>
+<p>
+  <em>Maven</em> - <em>Project</em> - <em>Right mouse</em> - <em>Generate Sources and update folders</em>
+</p>
+
+<p>
+  <img src="/images/maven-generate-source.png" width="600px">
+</p>
+<p>
+  &nbsp;
 </p>
 
 <div class="next pull-right">
