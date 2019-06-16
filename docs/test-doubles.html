@@ -58,37 +58,17 @@
     <div class="col-md-9" role="main">
       
 
-<h2>Test doubles (and Mockito)</h2>
+<h2>Test doubles and Mockito</h2>
 <p>
   During testing we often want to wire the bean context but supply some test doubles for certain dependencies.
 </p>
-
-<h3 id="withBeans">BeanContext.withBeans()</h3>
 <p>
-  We can use <code>withBeans()</code> to supply our own test doubles.
+  We use <code>withMock</code> and <code>withSpy</code> to use Mockito mocks and spys and otherwise use
+  <code>withBean</code> to use some other test double that we supply.
 </p>
-<div class="syntax java"><div class="highlight"><pre><span></span><span class="nd">@Test</span>
-<span class="kd">public</span> <span class="kt">void</span> <span class="nf">myComponentTest</span><span class="o">()</span> <span class="o">{</span>
-
-  <span class="c1">// create our test doubles to use</span>
-  <span class="n">Pump</span> <span class="n">pump</span> <span class="o">=</span> <span class="n">mock</span><span class="o">(</span><span class="n">Pump</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
-  <span class="n">Grinder</span> <span class="n">grinder</span> <span class="o">=</span> <span class="n">mock</span><span class="o">(</span><span class="n">Grinder</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
-
-  <span class="k">try</span> <span class="o">(</span><span class="n">BeanContext</span> <span class="n">context</span> <span class="o">=</span> <span class="k">new</span> <span class="n">BootContext</span><span class="o">()</span>
-    <span class="o">.</span><span class="na">withBeans</span><span class="o">(</span><span class="n">pump</span><span class="o">,</span> <span class="n">grinder</span><span class="o">)</span>
-    <span class="o">.</span><span class="na">load</span><span class="o">())</span> <span class="o">{</span>
-
-    <span class="c1">// act</span>
-    <span class="n">CoffeeMaker</span> <span class="n">coffeeMaker</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="na">getBean</span><span class="o">(</span><span class="n">CoffeeMaker</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
-    <span class="n">coffeeMaker</span><span class="o">.</span><span class="na">makeIt</span><span class="o">();</span>
-
-    <span class="c1">// assert</span>
-    <span class="n">assertThat</span><span class="o">(...)</span>
-  <span class="o">}</span>
-
-<span class="o">}</span>
-</pre></div>
-</div>
+<p>
+  &nbsp;
+</p>
 
 <h3 id="withMock">BeanContext.withMock()</h3>
 <p>
@@ -100,6 +80,7 @@
 
   <span class="k">try</span> <span class="o">(</span><span class="n">BeanContext</span> <span class="n">context</span> <span class="o">=</span> <span class="k">new</span> <span class="n">BootContext</span><span class="o">()</span>
     <span class="o">.</span><span class="na">withMock</span><span class="o">(</span><span class="n">Pump</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+    <span class="o">.</span><span class="na">withMock</span><span class="o">(</span><span class="n">Heater</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
     <span class="o">.</span><span class="na">withMock</span><span class="o">(</span><span class="n">Grinder</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="n">grinder</span> <span class="o">-&gt;</span> <span class="o">{</span>
       <span class="c1">// setup the mock</span>
       <span class="n">when</span><span class="o">(</span><span class="n">grinder</span><span class="o">.</span><span class="na">grindBeans</span><span class="o">()).</span><span class="na">thenReturn</span><span class="o">(</span><span class="s">&quot;stub response&quot;</span><span class="o">);</span>
@@ -151,15 +132,54 @@
 </pre></div>
 </div>
 
+<h3 id="withBeans">BeanContext.withBeans()</h3>
+<p>
+  We can use <code>withBeans()</code> to supply our own test doubles.
+</p>
+<div class="syntax java"><div class="highlight"><pre><span></span><span class="nd">@Test</span>
+<span class="kd">public</span> <span class="kt">void</span> <span class="nf">myComponentTest</span><span class="o">()</span> <span class="o">{</span>
+
+  <span class="c1">// create our test doubles to use</span>
+  <span class="n">Pump</span> <span class="n">pump</span> <span class="o">=</span> <span class="n">mock</span><span class="o">(</span><span class="n">Pump</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+  <span class="n">Grinder</span> <span class="n">grinder</span> <span class="o">=</span> <span class="n">mock</span><span class="o">(</span><span class="n">Grinder</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+
+  <span class="k">try</span> <span class="o">(</span><span class="n">BeanContext</span> <span class="n">context</span> <span class="o">=</span> <span class="k">new</span> <span class="n">BootContext</span><span class="o">()</span>
+    <span class="o">.</span><span class="na">withBeans</span><span class="o">(</span><span class="n">pump</span><span class="o">,</span> <span class="n">grinder</span><span class="o">)</span>
+    <span class="o">.</span><span class="na">load</span><span class="o">())</span> <span class="o">{</span>
+
+    <span class="c1">// act</span>
+    <span class="n">CoffeeMaker</span> <span class="n">coffeeMaker</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="na">getBean</span><span class="o">(</span><span class="n">CoffeeMaker</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+    <span class="n">coffeeMaker</span><span class="o">.</span><span class="na">makeIt</span><span class="o">();</span>
+
+    <span class="c1">// assert</span>
+    <span class="n">assertThat</span><span class="o">(...)</span>
+  <span class="o">}</span>
+
+<span class="o">}</span>
+</pre></div>
+</div>
+
+<div class="next pull-right">
+  <a href="modules" class="btn btn-info">Next: Modules</a>
+</div>
+
 
     </div>
 
     <div class="col-md-3" role="complementary">
       <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm">
         <ul class="nav bs-docs-sidenav">
-
 <li >
-  <a href="/docs/">Injection</a>
+  <a href="/docs">DInject</a>
+</li>
+<li >
+  <a href="/docs/maven">Maven</a>
+</li>
+<li >
+  <a href="/docs/gradle">Gradle</a>
+</li>
+<li >
+  <a href="/docs/injection">Injection</a>
 </li>
 <li >
   <a href="/docs/lifecycle">Lifecycle</a>

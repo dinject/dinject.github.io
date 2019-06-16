@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Documentation</title>
+  <title>Maven | DInject dependency injection</title>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -48,7 +48,7 @@
 
 <div class="jumbotron mini">
   <div class="container">
-    <h1><a href="/docs/">Documentation</a> / DInject</h1>
+    <h1><a href="/docs/">Documentation</a> / Gradle</h1>
   </div>
 </div>
 
@@ -58,38 +58,61 @@
     <div class="col-md-9" role="main">
       
 
-<h2 id="dinject">DInject Dependency Injection</h2>
+<h2>Gradle</h2>
 <p>
-  DInject is designed to be a fast and light dependency injection library for server-side Java and Kotlin
-  developers.
+  See the example at:
+  <a href="https://github.com/dinject/examples/blob/master/javalin-gradle-java-basic/build.gradle">examples/javalin-gradle-java-basic/build.gradle</a>
 </p>
 <p>
-  It is fast and light by using source code generation (like Dagger). There is no use of reflection or classpath
-  scanning.
-</p>
-<p>
-  It is orientated to server-side use by providing similar functionality to Spring DI including Lifecycle support,
-  @Factory + @Bean and the ability to get beans from the context (which is what we need in order to use DI for
-  web route controllers for use with Javalin and other web libraries).
+  Add <em>dinject</em> as a dependency.
 </p>
 
-<h2 id="aop">No AOP</h2>
-<p>
-  Currently DInject does not include AOP. The expectation is that AOP functionality comes
-  with other libraries - for example Ebean ORM has <code>@Transactional</code> and Metrics
-  libraries have their own <code>@Timed</code>.
-</p>
-<p>
-  If we can stick to these additional libraries providing their own AOP/enhancement that has
-  the benefit that DInject has no requirement for creating <em>Dynamic Proxies</em> which
-  have relatively expensive startup cost.
-</p>
-
-
-<div class="next pull-right">
-  <a href="maven" class="btn btn-info">Next: Maven</a>
+<div class="syntax groovy"><div class="highlight"><pre><span></span><span class="n">dependencies</span> <span class="o">{</span>
+    <span class="o">...</span>
+    <span class="n">compile</span><span class="o">(</span><span class="s1">&#39;io.dinject:dinject:1.8&#39;</span><span class="o">)</span>
+    <span class="o">...</span>
+<span class="o">}</span>
+</pre></div>
 </div>
 
+<h3>APT - dinject-generator</h3>
+<p>
+  Add <em>dinject-generator</em> as a annotation processor.
+</p>
+
+<div class="syntax groovy"><div class="highlight"><pre><span></span><span class="n">dependencies</span> <span class="o">{</span>
+    <span class="o">...</span>
+    <span class="n">annotationProcessor</span><span class="o">(</span><span class="s1">&#39;io.dinject:dinject-generator:1.8&#39;</span><span class="o">)</span>
+    <span class="o">...</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+
+
+<h3>Kotlin KAPT - dinject-generator</h3>
+<p>
+  See example at: https://github.com/dinject/examples/blob/master/basic-di-kotlin-maven/pom.xml
+</p>
+<p>
+  For use with Kotlin we register <em>dinject-generator</em> as a KAPT processor
+  to the Kotlin compiler.
+</p>
+<div class="syntax groovy"><div class="highlight"><pre><span></span><span class="n">dependencies</span> <span class="o">{</span>
+    <span class="o">...</span>
+    <span class="n">kapt</span><span class="o">(</span><span class="s1">&#39;io.dinject:dinject-generator:1.8&#39;</span><span class="o">)</span>
+    <span class="o">...</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+
+<p>
+  The above includes the <em>dinject-generator</em> annotation processor only. For use with <code>Javalin</code>
+  we additionally include the <code>io.dinject:javalin-generator:1.6</code> tile.
+</p>
+
+<div class="next pull-right">
+  <a href="injection" class="btn btn-info">Next: Injection</a>
+</div>
 
 
     </div>
@@ -97,13 +120,13 @@
     <div class="col-md-3" role="complementary">
       <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm">
         <ul class="nav bs-docs-sidenav">
-<li class="active">
+<li >
   <a href="/docs">DInject</a>
 </li>
 <li >
   <a href="/docs/maven">Maven</a>
 </li>
-<li >
+<li class="active">
   <a href="/docs/gradle">Gradle</a>
 </li>
 <li >
