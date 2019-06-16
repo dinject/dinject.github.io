@@ -21,22 +21,28 @@
 <span class="sourceLineNo">013</span>   * Create the root level Builder.<a name="line.13"></a>
 <span class="sourceLineNo">014</span>   *<a name="line.14"></a>
 <span class="sourceLineNo">015</span>   * @param suppliedBeans The list of beans (typically test doubles) supplied when building the context.<a name="line.15"></a>
-<span class="sourceLineNo">016</span>   */<a name="line.16"></a>
-<span class="sourceLineNo">017</span>  public static Builder newRootBuilder(List&lt;SuppliedBean&gt; suppliedBeans) {<a name="line.17"></a>
-<span class="sourceLineNo">018</span>    return new DBuilder(suppliedBeans);<a name="line.18"></a>
-<span class="sourceLineNo">019</span>  }<a name="line.19"></a>
-<span class="sourceLineNo">020</span><a name="line.20"></a>
-<span class="sourceLineNo">021</span>  /**<a name="line.21"></a>
-<span class="sourceLineNo">022</span>   * Create a Builder for the named context (module).<a name="line.22"></a>
-<span class="sourceLineNo">023</span>   *<a name="line.23"></a>
-<span class="sourceLineNo">024</span>   * @param name      the name of the module / bean context<a name="line.24"></a>
-<span class="sourceLineNo">025</span>   * @param provides  the module features this module provides<a name="line.25"></a>
-<span class="sourceLineNo">026</span>   * @param dependsOn the names of modules this module is depends on.<a name="line.26"></a>
-<span class="sourceLineNo">027</span>   */<a name="line.27"></a>
-<span class="sourceLineNo">028</span>  public static Builder newBuilder(String name, String[] provides, String[] dependsOn) {<a name="line.28"></a>
-<span class="sourceLineNo">029</span>    return new DBuilder(name, provides, dependsOn);<a name="line.29"></a>
-<span class="sourceLineNo">030</span>  }<a name="line.30"></a>
-<span class="sourceLineNo">031</span>}<a name="line.31"></a>
+<span class="sourceLineNo">016</span>   * @param enrichBeans   The list of classes we want to have with mockito spy enhancement<a name="line.16"></a>
+<span class="sourceLineNo">017</span>   */<a name="line.17"></a>
+<span class="sourceLineNo">018</span>  public static Builder newRootBuilder(List&lt;SuppliedBean&gt; suppliedBeans, List&lt;EnrichBean&gt; enrichBeans) {<a name="line.18"></a>
+<span class="sourceLineNo">019</span><a name="line.19"></a>
+<span class="sourceLineNo">020</span>    if (suppliedBeans.isEmpty() &amp;&amp; enrichBeans.isEmpty()) {<a name="line.20"></a>
+<span class="sourceLineNo">021</span>      // simple case, no mocks or spies<a name="line.21"></a>
+<span class="sourceLineNo">022</span>      return new DBuilder();<a name="line.22"></a>
+<span class="sourceLineNo">023</span>    }<a name="line.23"></a>
+<span class="sourceLineNo">024</span>    return new DBuilderExtn(suppliedBeans, enrichBeans);<a name="line.24"></a>
+<span class="sourceLineNo">025</span>  }<a name="line.25"></a>
+<span class="sourceLineNo">026</span><a name="line.26"></a>
+<span class="sourceLineNo">027</span>  /**<a name="line.27"></a>
+<span class="sourceLineNo">028</span>   * Create a Builder for the named context (module).<a name="line.28"></a>
+<span class="sourceLineNo">029</span>   *<a name="line.29"></a>
+<span class="sourceLineNo">030</span>   * @param name      the name of the module / bean context<a name="line.30"></a>
+<span class="sourceLineNo">031</span>   * @param provides  the module features this module provides<a name="line.31"></a>
+<span class="sourceLineNo">032</span>   * @param dependsOn the names of modules this module is depends on.<a name="line.32"></a>
+<span class="sourceLineNo">033</span>   */<a name="line.33"></a>
+<span class="sourceLineNo">034</span>  public static Builder newBuilder(String name, String[] provides, String[] dependsOn) {<a name="line.34"></a>
+<span class="sourceLineNo">035</span>    return new DBuilder(name, provides, dependsOn);<a name="line.35"></a>
+<span class="sourceLineNo">036</span>  }<a name="line.36"></a>
+<span class="sourceLineNo">037</span>}<a name="line.37"></a>
 
 
 
