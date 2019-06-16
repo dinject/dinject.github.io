@@ -129,18 +129,19 @@
   The <code>javalin-generator</code> generates the code below.
 </p>
 <ul>
-  <li>A bean that implements <code>WebRoutes</code>   <b>(A)</b></li>
-  <li>Registers the web routes to Javalin ApiBuilder   <b>(B)</b></li>
-  <li>Obtains path parameters and query parameters  <b>(C)</b></li>
-  <li>Passes the path and query parameters to the controller methods  <b>(D)</b></li>
-  <li>Converts to and from JSON the controller method response or body  <b>(E)</b></li>
-  <li>Adapter @Roles for the web route <b>(F)</b></li>
+  <li>A bean annotated with <code>@Singleton</code>   <b>(A)</b></li>
+  <li>A bean that implements <code>WebRoutes</code>   <b>(B)</b></li>
+  <li>Registers the web routes to Javalin ApiBuilder   <b>(C)</b></li>
+  <li>Obtains path parameters and query parameters  <b>(D)</b></li>
+  <li>Passes the path and query parameters to the controller methods  <b>(E)</b></li>
+  <li>Converts to and from JSON the controller method response or body  <b>(F)</b></li>
+  <li>Adapter @Roles for the web route <b>(G)</b></li>
 
 </ul>
 
 <div class="syntax java"><div class="highlight"><pre><span></span><span class="nd">@Generated</span><span class="o">(</span><span class="s">&quot;io.dinject.javalin.generator&quot;</span><span class="o">)</span>
-<span class="nd">@Singleton</span>
-<span class="kd">public</span> <span class="kd">class</span> <span class="nc">CustomerController$route</span> <span class="kd">implements</span> <span class="n">WebRoutes</span> <span class="o">{</span>         <span class="c1">// (A)</span>
+<span class="nd">@Singleton</span>                                                       <span class="c1">// (A)</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">CustomerController$route</span> <span class="kd">implements</span> <span class="n">WebRoutes</span> <span class="o">{</span>     <span class="c1">// (B)</span>
 
  <span class="kd">private</span> <span class="kd">final</span> <span class="n">CustomerController</span> <span class="n">controller</span><span class="o">;</span>
 
@@ -151,18 +152,18 @@
   <span class="nd">@Override</span>
   <span class="kd">public</span> <span class="kt">void</span> <span class="nf">registerRoutes</span><span class="o">()</span> <span class="o">{</span>
 
-    <span class="n">ApiBuilder</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">&quot;/customers/:id&quot;</span><span class="o">,</span> <span class="n">ctx</span> <span class="o">-&gt;</span> <span class="o">{</span>                   <span class="c1">// (B)</span>
+    <span class="n">ApiBuilder</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">&quot;/customers/:id&quot;</span><span class="o">,</span> <span class="n">ctx</span> <span class="o">-&gt;</span> <span class="o">{</span>                   <span class="c1">// (C)</span>
       <span class="n">ctx</span><span class="o">.</span><span class="na">status</span><span class="o">(</span><span class="mi">200</span><span class="o">);</span>
-      <span class="n">UUID</span> <span class="n">id</span> <span class="o">=</span> <span class="n">asUUID</span><span class="o">(</span><span class="n">ctx</span><span class="o">.</span><span class="na">pathParam</span><span class="o">(</span><span class="s">&quot;id&quot;</span><span class="o">));</span>                    <span class="c1">// (C)</span>
-      <span class="n">ctx</span><span class="o">.</span><span class="na">json</span><span class="o">(</span><span class="n">controller</span><span class="o">.</span><span class="na">getById</span><span class="o">(</span><span class="n">id</span><span class="o">));</span>                         <span class="c1">// (D), (E)</span>
+      <span class="n">UUID</span> <span class="n">id</span> <span class="o">=</span> <span class="n">asUUID</span><span class="o">(</span><span class="n">ctx</span><span class="o">.</span><span class="na">pathParam</span><span class="o">(</span><span class="s">&quot;id&quot;</span><span class="o">));</span>                    <span class="c1">// (D)</span>
+      <span class="n">ctx</span><span class="o">.</span><span class="na">json</span><span class="o">(</span><span class="n">controller</span><span class="o">.</span><span class="na">getById</span><span class="o">(</span><span class="n">id</span><span class="o">));</span>                         <span class="c1">// (E), (F)</span>
     <span class="o">});</span>
 
-    <span class="n">ApiBuilder</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">&quot;/customers/type/:type&quot;</span><span class="o">,</span> <span class="n">ctx</span> <span class="o">-&gt;</span> <span class="o">{</span>            <span class="c1">// (B)</span>
+    <span class="n">ApiBuilder</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">&quot;/customers/type/:type&quot;</span><span class="o">,</span> <span class="n">ctx</span> <span class="o">-&gt;</span> <span class="o">{</span>            <span class="c1">// (C)</span>
       <span class="n">ctx</span><span class="o">.</span><span class="na">status</span><span class="o">(</span><span class="mi">200</span><span class="o">);</span>
-      <span class="n">String</span> <span class="n">type</span> <span class="o">=</span> <span class="n">ctx</span><span class="o">.</span><span class="na">pathParam</span><span class="o">(</span><span class="s">&quot;type&quot;</span><span class="o">);</span>                      <span class="c1">// (C)</span>
-      <span class="n">String</span> <span class="n">orderBy</span> <span class="o">=</span> <span class="n">ctx</span><span class="o">.</span><span class="na">queryParam</span><span class="o">(</span><span class="s">&quot;orderBy&quot;</span><span class="o">);</span>               <span class="c1">// (C)</span>
-      <span class="n">ctx</span><span class="o">.</span><span class="na">json</span><span class="o">(</span><span class="n">controller</span><span class="o">.</span><span class="na">findByType</span><span class="o">(</span><span class="n">type</span><span class="o">,</span> <span class="n">orderBy</span><span class="o">));</span>           <span class="c1">// (D), (E)</span>
-    <span class="o">},</span> <span class="n">roles</span><span class="o">(</span><span class="n">ADMIN</span><span class="o">));</span>                                           <span class="c1">// (F)</span>
+      <span class="n">String</span> <span class="n">type</span> <span class="o">=</span> <span class="n">ctx</span><span class="o">.</span><span class="na">pathParam</span><span class="o">(</span><span class="s">&quot;type&quot;</span><span class="o">);</span>                      <span class="c1">// (D)</span>
+      <span class="n">String</span> <span class="n">orderBy</span> <span class="o">=</span> <span class="n">ctx</span><span class="o">.</span><span class="na">queryParam</span><span class="o">(</span><span class="s">&quot;orderBy&quot;</span><span class="o">);</span>               <span class="c1">// (D)</span>
+      <span class="n">ctx</span><span class="o">.</span><span class="na">json</span><span class="o">(</span><span class="n">controller</span><span class="o">.</span><span class="na">findByType</span><span class="o">(</span><span class="n">type</span><span class="o">,</span> <span class="n">orderBy</span><span class="o">));</span>           <span class="c1">// (E), (F)</span>
+    <span class="o">},</span> <span class="n">roles</span><span class="o">(</span><span class="n">ADMIN</span><span class="o">));</span>                                           <span class="c1">// (E)</span>
 
   <span class="o">}</span>
 
@@ -196,6 +197,11 @@
 <span class="o">}</span>
 </pre></div>
 </div>
+<p>
+  Note that there isn't a strict requirement to use DInject for dependency injection.
+  Any DI library that can find and wire the <em>@Singleton</em> bean generated could
+  be used.
+</p>
 
 <div class="next pull-right">
   <a href="jaxrs" class="btn btn-info">Next: JAX-RS</a>
