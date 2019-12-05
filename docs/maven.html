@@ -100,8 +100,9 @@
   to the Kotlin compiler.
 </p>
 <p>
-  The easiest way to do this is to add the <code>io.dinject.kapt:dinject:1.12</code>
-  maven tile in <em>build / plugins</em> like:
+  The easiest way to do this is to add the <code>io.avaje.kapt</code>
+  maven tiles for <em>compile</em> and <em>dinject-generator</em>
+  in <em>build / plugins</em> like:
 </p>
 <div class="syntax xml"><div class="highlight"><pre><span></span><span class="nt">&lt;build&gt;</span>
   <span class="nt">&lt;plugins&gt;</span>
@@ -109,11 +110,22 @@
     <span class="nt">&lt;plugin&gt;</span>
       <span class="nt">&lt;groupId&gt;</span>io.repaint.maven<span class="nt">&lt;/groupId&gt;</span>
       <span class="nt">&lt;artifactId&gt;</span>tiles-maven-plugin<span class="nt">&lt;/artifactId&gt;</span>
-      <span class="nt">&lt;version&gt;</span>2.12<span class="nt">&lt;/version&gt;</span>
+      <span class="nt">&lt;version&gt;</span>2.16<span class="nt">&lt;/version&gt;</span>
       <span class="nt">&lt;extensions&gt;</span>true<span class="nt">&lt;/extensions&gt;</span>
       <span class="nt">&lt;configuration&gt;</span>
         <span class="nt">&lt;tiles&gt;</span>
-          <span class="nt">&lt;tile&gt;</span>io.dinject.kapt:dinject:1.12<span class="nt">&lt;/tile&gt;</span>
+          <span class="c">&lt;!-- kotlin compile with kapt support --&gt;</span>
+          <span class="nt">&lt;tile&gt;</span>io.avaje.kapt:compile:1.1<span class="nt">&lt;/tile&gt;</span>
+          <span class="nt">&lt;tile&gt;</span>io.avaje.kapt:dinject-generator:1.1<span class="nt">&lt;/tile&gt;</span>
+
+          <span class="c">&lt;!-- other annotation processors ... --&gt;</span>
+          <span class="c">&lt;!-- &lt;tile&gt;io.avaje.kapt:javalin-generator:1.1&lt;/tile&gt; --&gt;</span>
+          <span class="c">&lt;!-- &lt;tile&gt;io.avaje.kapt:querybean-generator:1.1&lt;/tile&gt; --&gt;</span>
+
+          <span class="c">&lt;!-- other tiles --&gt;</span>
+          <span class="c">&lt;!-- &lt;tile&gt;org.avaje.tile:lib-classpath:1.1&lt;/tile&gt; --&gt;</span>
+          <span class="c">&lt;!-- &lt;tile&gt;io.ebean.tile:enhancement:12.1.3&lt;/tile&gt; --&gt;</span>
+
         <span class="nt">&lt;/tiles&gt;</span>
       <span class="nt">&lt;/configuration&gt;</span>
     <span class="nt">&lt;/plugin&gt;</span>
