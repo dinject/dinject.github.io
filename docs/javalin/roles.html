@@ -14,7 +14,7 @@
   <link rel="stylesheet" href="/css/site.css">
 
 </head>
-  <body>
+<body>
   <div id="wrap">
     <div id="header">
     <div class="navbar" role="navigation">
@@ -48,7 +48,7 @@
 
 <div class="jumbotron mini">
   <div class="container">
-    <h1><a href="/docs">Docs</a> / <a href="/docs/javalin">Javalin</a> / @Roles</h1>
+    <h1><a href="/docs">Docs</a><span class="sep">&nbsp;/&nbsp;</span><a href="/docs/javalin">Javalin</a><span class="sep">&nbsp;/&nbsp;</span><span class="last">@Roles</span></h1>
   </div>
 </div>
 
@@ -64,7 +64,7 @@
   An application can define a <code>@Roles</code> annotation. If the annotation matches the name <code>"Roles"</code>
   then it is deemed to define application security roles and generates appropriate code in the web route.
 </p>
-<div class="syntax java"><div class="highlight"><pre><span></span><span class="nd">@Roles</span><span class="o">({</span><span class="n">ADMIN</span><span class="o">})</span>
+<div class="syntax java"><div class="highlight"><pre><span></span><span class="nd">@Roles</span><span class="o">({</span><span class="nx">ADMIN</span><span class="o">})</span>
 <span class="nd">@Get</span>
 <span class="n">List</span><span class="o">&lt;</span><span class="n">HelloDto</span><span class="o">&gt;</span> <span class="nf">getAll</span><span class="o">()</span> <span class="o">{</span>
   <span class="o">...</span>

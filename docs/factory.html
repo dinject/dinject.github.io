@@ -14,7 +14,7 @@
   <link rel="stylesheet" href="/css/site.css">
 
 </head>
-  <body>
+<body>
   <div id="wrap">
     <div id="header">
     <div class="navbar" role="navigation">
@@ -48,7 +48,7 @@
 
 <div class="jumbotron mini">
   <div class="container">
-    <h1><a href="/docs/">Documentation</a> / Factory</h1>
+    <h1><a href="/docs/">Documentation</a><span class="sep">&nbsp;/&nbsp;</span><span class="last">@Factory</span></h1>
   </div>
 </div>
 
@@ -61,49 +61,104 @@
 <h2>@Factory</h2>
 <p>
   Factory beans allow logic to be used when creating a bean. Often this logic is based
-  on environment variables or system properties (e.g. AWS region).
+  on environment variables or system properties (e.g. programmatically create a bean based on AWS region).
 </p>
 <p>
-  This is equivalent to Spring DI <code>@Configuration</code>.
+  We annotate a class with <code>@Factory</code> to tell us that it contains methods
+  that create beans. The factory class can itself have dependencies.
 </p>
 
+<h2>@Bean</h2>
+<p>
+  We annotate methods on the factory class that create a bean with <code>@Bean</code>.
+  These methods can have dependencies and will execute in the appropriate order
+  depending on the dependencies they require.
+</p>
+
+<h5>Spring DI Note</h5>
+<p>
+  This is equivalent to Spring DI <code>@Configuration</code> <code>@Bean</code>.
+</p>
+
+<h3>Example</h3>
 <div class="syntax java"><div class="highlight"><pre><span></span><span class="nd">@Factory</span>
 <span class="kd">class</span> <span class="nc">Configuration</span> <span class="o">{</span>
 
   <span class="kd">private</span> <span class="kd">final</span> <span class="n">StartConfig</span> <span class="n">startConfig</span><span class="o">;</span>
 
   <span class="cm">/**</span>
-<span class="cm">   * Factory beans can have dependencies.</span>
+<span class="cm">   * Factory can have dependencies.</span>
 <span class="cm">   */</span>
   <span class="nd">@Inject</span>
   <span class="n">Configuration</span><span class="o">(</span><span class="n">StartConfig</span> <span class="n">startConfig</span><span class="o">)</span> <span class="o">{</span>
     <span class="k">this</span><span class="o">.</span><span class="na">startConfig</span> <span class="o">=</span> <span class="n">startConfig</span><span class="o">;</span>
   <span class="o">}</span>
 
-  <span class="cm">/**</span>
-<span class="cm">   * Builder method.</span>
-<span class="cm">   */</span>
   <span class="nd">@Bean</span>
-  <span class="n">FooBean</span> <span class="nf">buildFoo</span><span class="o">()</span> <span class="o">{</span>
-
+  <span class="n">Pump</span> <span class="nf">buildPump</span><span class="o">()</span> <span class="o">{</span>
     <span class="c1">// maybe read System properties or environment variables</span>
-    <span class="k">return</span> <span class="k">new</span> <span class="n">FooBean</span><span class="o">(...);</span>
+    <span class="k">return</span> <span class="k">new</span> <span class="n">FastPump</span><span class="o">(...);</span>
   <span class="o">}</span>
 
   <span class="cm">/**</span>
-<span class="cm">   * Builder method with dependencies as method parameters.</span>
+<span class="cm">   * Method with dependencies as method parameters.</span>
 <span class="cm">   */</span>
   <span class="nd">@Bean</span>
-  <span class="n">BarBean</span> <span class="nf">buildBar</span><span class="o">(</span><span class="n">FooBean</span> <span class="n">foo</span><span class="o">,</span> <span class="n">CoffeeMaker</span> <span class="n">maker</span><span class="o">)</span> <span class="o">{</span>
-
+  <span class="n">CoffeeMaker</span> <span class="nf">buildBar</span><span class="o">(</span><span class="n">Pump</span> <span class="n">pump</span><span class="o">,</span> <span class="n">Grinder</span> <span class="n">grinder</span><span class="o">)</span> <span class="o">{</span>
     <span class="c1">// maybe read System properties or environment variables</span>
-    <span class="k">return</span> <span class="k">new</span> <span class="n">BarBean</span><span class="o">(...);</span>
+    <span class="k">return</span> <span class="k">new</span> <span class="n">CoffeeMaker</span><span class="o">(...);</span>
   <span class="o">}</span>
 <span class="o">}</span>
 </pre></div>
 </div>
+
+
+<h2 id="beanMethods">@Bean initMethod & destroyMethod</h2>
+<p>
+  With <code>@Bean</code> we can specify an <code>initMethod</code>
+  which will be executed on startup like <code>@PostConstruct</code>.
+  Similarly a <code>destroyMethod</code> which execute on shutdown like <code>@PreDestroy</code>.
+</p>
+
+<h3>Example</h3>
+<div class="syntax java"><div class="highlight"><pre><span></span><span class="nd">@Factory</span>
+<span class="kd">class</span> <span class="nc">Configuration</span> <span class="o">{</span>
+  <span class="o">...</span>
+  <span class="nd">@Bean</span><span class="o">(</span><span class="nx">initMethod</span> <span class="o">=</span> <span class="s">&quot;init&quot;</span><span class="o">,</span> <span class="nx">destroyMethod</span> <span class="o">=</span> <span class="s">&quot;close&quot;</span><span class="o">)</span>
+  <span class="n">CoffeeMaker</span> <span class="nf">buildCoffeeMaker</span><span class="o">(</span><span class="n">Pump</span> <span class="n">pump</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="k">new</span> <span class="n">CoffeeMaker</span><span class="o">(</span><span class="n">pump</span><span class="o">);</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+<p>
+  The CoffeeMaker has the appropriate methods that are executed as part of the lifecycle.
+</p>
+<div class="syntax java"><div class="highlight"><pre><span></span><span class="kd">class</span> <span class="nc">CoffeeMaker</span> <span class="o">{</span>
+  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">init</span><span class="o">()</span> <span class="o">{</span>
+    <span class="c1">// lifecycle executed on start/PostConstruct</span>
+  <span class="o">}</span>
+  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">close</span><span class="o">()</span> <span class="o">{</span>
+    <span class="c1">// lifecycle executed on shutdown/PreDestroy</span>
+  <span class="o">}</span>
+  <span class="o">...</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+
+<h2 id="jsr-extension">JSR 330 Provider interface</h2>
+<p>
+  Note that using <code>@Factory</code> plus <code>@Bean</code> is an <b>alternative</b> to the standard
+  JSR 330 <code>javax.inject.Provider</code> interface.
+</p>
+<p>
+  Generally the use of <code>@Factory</code> plus <code>@Bean</code> is expected as it is
+  relatively more convenient than using <code>javax.inject.Provider</code>. In Spring DI terms
+  the use of @Configuration @Bean is now arguably more common than Spring's FactoryBean interface.
+</p>
+
 <div class="next pull-right">
-  <a href="test-doubles" class="btn btn-info">Next: Test doubles</a>
+  <a href="primary" class="btn btn-info">Next: @Primary</a>
 </div>
 
 
@@ -128,7 +183,10 @@
   <a href="/docs/lifecycle">Lifecycle</a>
 </li>
 <li class="active">
-  <a href="/docs/factory">Factory</a>
+  <a href="/docs/factory">@Factory</a>
+</li>
+<li >
+  <a href="/docs/primary">@Primary</a>
 </li>
 <li >
   <a href="/docs/test-doubles">Test doubles</a>

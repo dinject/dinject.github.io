@@ -14,7 +14,7 @@
   <link rel="stylesheet" href="/css/site.css">
 
 </head>
-  <body>
+<body>
   <div id="wrap">
     <div id="header">
     <div class="navbar" role="navigation">
@@ -48,7 +48,7 @@
 
 <div class="jumbotron mini">
   <div class="container">
-    <h1><a href="/docs">Docs</a> / <a href="/docs/javalin">Javalin</a> / @BeanParam</h1>
+    <h1><a href="/docs">Docs</a><span class="sep">&nbsp;/&nbsp;</span><a href="/docs/javalin">Javalin</a><span class="sep">&nbsp;/&nbsp;</span><span class="last">@BeanParam</span></h1>
   </div>
 </div>
 
@@ -81,7 +81,7 @@
   We annotate the bean with <code>@BeanParam</code>
 </p>
 <div class="syntax java"><div class="highlight"><pre><span></span><span class="nd">@Get</span><span class="o">(</span><span class="s">&quot;search/:type&quot;</span><span class="o">)</span>
-<span class="n">List</span><span class="o">&lt;</span><span class="n">Cat</span><span class="o">&gt;</span> <span class="nf">findCats</span><span class="o">(</span><span class="n">String</span> <span class="n">type</span><span class="o">,</span> <span class="nd">@BeanParam</span> <span class="n">CommonParams</span> <span class="n">params</span><span class="o">)</span> <span class="o">{</span>
+<span class="nx">List</span><span class="o">&lt;</span><span class="nx">Cat</span><span class="o">&gt;</span> <span class="nf">findCats</span><span class="o">(</span><span class="nx">String</span> <span class="nx">type</span><span class="o">,</span> <span class="nd">@BeanParam</span> <span class="nx">CommonParams</span> <span class="nx">params</span><span class="o">)</span> <span class="o">{</span>
 
   <span class="o">...</span>
 <span class="o">}</span>

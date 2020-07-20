@@ -14,7 +14,7 @@
   <link rel="stylesheet" href="/css/site.css">
 
 </head>
-  <body>
+<body>
   <div id="wrap">
     <div id="header">
     <div class="navbar" role="navigation">
@@ -48,7 +48,7 @@
 
 <div class="jumbotron mini">
   <div class="container">
-    <h1><a href="/docs/">Documentation</a> / Lifecycle</h1>
+    <h1><a href="/docs/">Documentation</a><span class="sep">&nbsp;/&nbsp;</span><span class="last">Lifecycle</span></h1>
   </div>
 </div>
 
@@ -80,9 +80,9 @@
 </pre></div>
 </div>
 
-<h2>@PreDestory</h2>
+<h2>@PreDestroy</h2>
 <p>
-  Put <code>@PreDestory</code> on a method that we want to run on shutdown.
+  Put <code>@PreDestroy</code> on a method that we want to run on shutdown.
 </p>
 <p>
   Typically we want this method to close resources.
@@ -100,6 +100,14 @@
   <span class="o">...</span>
 </pre></div>
 </div>
+
+<h2>@Bean(initMethod = "init")</h2>
+<p>
+  For beans
+</p>
+
+<h2>@Bean(destroyMethod = "close")</h2>
+
 <div class="next pull-right">
   <a href="factory" class="btn btn-info">Next: Factory</a>
 </div>
@@ -130,7 +138,10 @@
 </ul>
 </li>
 <li >
-  <a href="/docs/factory">Factory</a>
+  <a href="/docs/factory">@Factory</a>
+</li>
+<li >
+  <a href="/docs/primary">@Primary</a>
 </li>
 <li >
   <a href="/docs/test-doubles">Test doubles</a>

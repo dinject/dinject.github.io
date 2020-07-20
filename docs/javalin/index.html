@@ -14,7 +14,7 @@
   <link rel="stylesheet" href="/css/site.css">
 
 </head>
-  <body>
+<body>
   <div id="wrap">
     <div id="header">
     <div class="navbar" role="navigation">
@@ -48,7 +48,7 @@
 
 <div class="jumbotron mini">
   <div class="container">
-    <h1><a href="/docs">Docs</a> / Javalin</h1>
+    <h1><a href="/docs">Docs</a><span class="sep">&nbsp;/&nbsp;</span><span class="last">Javalin</span></h1>
   </div>
 </div>
 
@@ -123,7 +123,7 @@
     <span class="o">...</span>
   <span class="o">}</span>
 
-  <span class="nd">@Roles</span><span class="o">(</span><span class="n">AppRoles</span><span class="o">.</span><span class="na">ADMIN</span><span class="o">)</span>
+  <span class="nd">@Roles</span><span class="o">(</span><span class="nx">AppRoles</span><span class="o">.</span><span class="na">ADMIN</span><span class="o">)</span>
   <span class="nd">@Get</span><span class="o">(</span><span class="s">&quot;/type/:type&quot;</span><span class="o">)</span>
   <span class="n">List</span><span class="o">&lt;</span><span class="n">Customer</span><span class="o">&gt;</span> <span class="nf">findByType</span><span class="o">(</span><span class="n">String</span> <span class="n">type</span><span class="o">,</span> <span class="n">String</span> <span class="n">orderBy</span><span class="o">)</span> <span class="o">{</span>
     <span class="o">...</span>
@@ -147,11 +147,11 @@
 
 <div class="syntax java"><div class="highlight"><pre><span></span><span class="nd">@Generated</span><span class="o">(</span><span class="s">&quot;io.dinject.javalin.generator&quot;</span><span class="o">)</span>
 <span class="nd">@Singleton</span>                                                       <span class="c1">// (A)</span>
-<span class="kd">public</span> <span class="kd">class</span> <span class="nc">CustomerController$route</span> <span class="kd">implements</span> <span class="n">WebRoutes</span> <span class="o">{</span>     <span class="c1">// (B)</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">CustomerController&#36;route</span> <span class="kd">implements</span> <span class="n">WebRoutes</span> <span class="o">{</span>     <span class="c1">// (B)</span>
 
  <span class="kd">private</span> <span class="kd">final</span> <span class="n">CustomerController</span> <span class="n">controller</span><span class="o">;</span>
 
- <span class="kd">public</span> <span class="nf">CustomerController$route</span><span class="o">(</span><span class="n">CustomerController</span> <span class="n">controller</span><span class="o">)</span> <span class="o">{</span>
+ <span class="kd">public</span> <span class="nf">CustomerController&#36;route</span><span class="o">(</span><span class="n">CustomerController</span> <span class="n">controller</span><span class="o">)</span> <span class="o">{</span>
    <span class="k">this</span><span class="o">.</span><span class="na">controller</span> <span class="o">=</span> <span class="n">controller</span><span class="o">;</span>
  <span class="o">}</span>
 
